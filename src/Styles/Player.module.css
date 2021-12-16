@@ -1,0 +1,24 @@
+.wrapper {
+    border: 1px solid red;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+.playButton {
+    padding: 10px 30px;
+    border-radius: 6px;
+    border: 3px solid #16a085;
+    background-color: #1abc9c;
+}
+
+.playButton:hover {
+    background-color: #16a085;
+}
+
+.playButton:active {
+    background-color: #1abc9c;
+}
+
+.volumeDiv {
+    display: flex;
+}
