@@ -1,23 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from "../Styles/Player.module.css";
-import ReactPlayer from 'react-player/youtube'
+import ReactPlayer from 'react-player/youtube';
+
 
 
 const Player = () => {
     const URL = "https://cloud-object-storage-20-bucket-01.s3.jp-tok.cloud-object-storage.appdomain.cloud/Ek%20Passe%20Tu%20Babbu%20-%20Sakhiyaan.mp3";
     
-    const [isPlayed, setPlayed] = useState(true)
-    const [volumeValue, setVolumeValue] = useState(50)
+    const [isPlayed, setPlayed] = useState(false)
+    const [volumeValue, setVolumeValue] = useState(1)
     const [currentTime, setCurrentTime] = useState(0)
     const [remainingTime, setRemainingTime] = useState(0)
     const audioRef = useRef();
     
     const playFunc = () => {
-        if(isPlayed == true){
-            audioRef.current.play()
-        } else {
-            audioRef.current.pause()
-        }
+        // if(isPlayed == true){
+        //     audioRef.current.play()
+        // } else {
+        //     audioRef.current.pause()
+        // }
         setPlayed(!isPlayed)
     }
     
@@ -25,15 +26,22 @@ const Player = () => {
         let tempValue = e.target.value
         audioRef.current.volume = tempValue / 100;
         setVolumeValue(tempValue)
+        console.log(tempValue);
     }
    
     return (
         <div className={styles.wrapper}>
+            <ReactPlayer 
+                url="https://www.youtube.com/watch?v=NwdQx2P_ytk"
+                playing={isPlayed}
+                volume={volumeValue}
+                controls={true}
+            />
             <audio ref={audioRef} src={URL} type="audio/mpeg"></audio>
-            <button className={styles.playButton} onClick={() => playFunc()}>{isPlayed === true ? "Play" : "Pause"}</button>
+            <button className={styles.playButton} onClick={() => playFunc()}>{isPlayed !== true ? "Play" : "Pause"}</button>
             <div className={styles.volumeDiv}>
-                <input value={volumeValue} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="100" step="0.01"/>
-                <h3>{Math.floor(volumeValue)}</h3>
+                <input value={volumeValue} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
+                <h3>Volume {Math.round(volumeValue * 100)}</h3>
             </div>
             <div className="">
                 <h5>{currentTime}</h5>
