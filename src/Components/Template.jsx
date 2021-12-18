@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styles from "../Styles/Template.module.css";
+import Modal from 'react-modal';
+
 import mydata from "../Template/playlist.json";
 const Template = () => {
     const [downloadUrl, setDownUrl] = useState(null)
@@ -21,33 +23,59 @@ const Template = () => {
         myref.current.click()
     }
     
+    
+    const handleSearch = () => {
+        
+    }
     return (
         <div className={styles.wrapper}>
-            <h1>Template Generator</h1>
-            <button onClick={(e) => download(e)}>Download</button><br></br>
-            <a 
-                className={styles.downloadLink}
-                download="template.json"
-                href={downloadUrl}
-                ref={myref}
-            >download link</a>
+            <div className={styles.titleDiv}>
+                <h1 className={styles.title}>Template Generator</h1>
+                <p className={styles.subTitle}>based on Youtube Data API v3</p>
+            </div>
             
+            <div className={styles.configDiv}>
+                <button className={styles.loadBtn}>Load Template</button> 
+                <button className={styles.previewBtn}>Preview List</button>       
+                {/* <button onClick={(e) => download(e)}>Download</button><br></br> */}
                 <input
+                    className={styles.keyInput}
                     value={apiKey}
                     type="text" 
                     placeholder='Youtube API key'
                     onChange={(e) => setAPIKey(e.target.value)}
                 />
-            <br></br>
-            
-            <div>
-                <h3>Select Endpoint </h3>
-                <p>current endpoint is {endPoint}</p>
-                <button onClick={() => setEndPoint("channel")}>Channel</button>
-                <button onClick={() => setEndPoint("playlist")}>Playlist</button>
-                <button onClick={() => setEndPoint("video")}>Video</button>
+                <a 
+                    className={styles.downloadLink}
+                    download="template.json"
+                    href={downloadUrl}
+                    ref={myref}
+                >download link</a>
+                <div className={styles.endPointDiv}>
+                    <div className={styles.endPointTitleDiv}>
+                        <h3 className={styles.endPointText}>Select Endpoint </h3>
+                        <p className={styles.endPointText}>current endpoint is {endPoint}</p>
+                    </div>
+                    <div className={styles.endPointBtnDiv}>
+                        <button className={endPoint === "channel" ? styles.activeEndPoint : styles.endPointBtn} onClick={() => setEndPoint("channel")}>Channel</button>
+                        <button className={endPoint === "playlist" ? styles.activeEndPoint : styles.endPointBtn} onClick={() => setEndPoint("playlist")}>Playlist</button>
+                        <button className={endPoint === "video" ? styles.activeEndPoint : styles.endPointBtn} onClick={() => setEndPoint("video")}>Video</button>
+                    </div>
+                </div>
+                <div className={styles.searchDiv}>
+                    <div className={styles.searchInputDiv}>
+                        <input className={styles.searchInput} placeholder={`${endPoint} id`}/>
+                    </div>
+                    <div className={styles.searchBtnDiv}>
+                        <button className={styles.searchBtn} onClick={() => handleSearch()}>Search</button>
+                    </div>   
+                </div>
             </div>
-            <button onClick={() => console.log(apiKey)}>Show Results</button>
+            <div className={styles.resultDiv}>
+                {
+                    "hkjh"
+                }
+            </div>
         </div>
     )
 }
