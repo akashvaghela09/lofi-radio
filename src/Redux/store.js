@@ -1,10 +1,12 @@
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 // import { reducer as appReducer } from './app/reducer'
 import { reducer as playerReducer} from './player/reducer'
+import { reducer as templateReducer} from './template/reducer'
 
 const rootReducer = combineReducers({
     // app: appReducer,
-    player: playerReducer
+    player: playerReducer,
+    template: templateReducer
 })
 
 const logger = (store) => (next) => (action) => {

@@ -1,23 +1,101 @@
 .wrapper {
-    background-color: black;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-button {
-    padding: 10px;
-    width: fit-content;
+.titleDiv {
+    width: 100%;
+    background-color: #34495e;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    color: #b2bec3;
 }
 
-input {
-    padding: 10px;
+.title, .subTitle {
     margin: 5px;
 }
 
 .downloadLink {
     display: none;
+}
+
+.configDiv {
+    width: 50%;
+}
+
+.loadBtn, .previewBtn {
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.keyInput {
+    float: right;
+    padding: 5px;
+    margin: 5px;
+}
+
+.endPointDiv {
+    display: flex;
+    margin-top: 10px;
+    background-color: #b2bec3;
+}
+
+.endPointTitleDiv {
+    width: 50%;
+    padding: 5px;
+}
+
+.endPointBtnDiv {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.endPointBtn, .activeEndPoint {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    height: fit-content;
+}
+
+.activeEndPoint {
+    background-color: #2d3436;
+    border: #2d3436;
+    color: white;
+}
+
+.searchDiv {
+    display: flex;
+    width: 100%;
+    margin: 10px 0px;
+}
+
+.searchInputDiv {
+    width: 85%;
+}
+
+.searchBtnDiv{
+    width: 15%;
+}
+
+.searchInput {
+    padding: 5px;
+    width: 97%;
+}
+
+.searchBtn {
+    width: 100%;
+    padding: 5px;
+}
+
+.resultDiv {
+    width: 50%;
+    border: 1px solid red;
 }
