@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from  './App.module.css';
-import { Player } from './Components/Player';
+import { AllRoutes } from './Routes/AllRoutes';
 
 function App() {
   return (
     <div className={styles.App}>
-      <Player />
+      <AllRoutes />
     </div>
   );
 }
