@@ -9,9 +9,15 @@
 }
 
 button {
-    padding: 20px;
+    padding: 10px;
     width: fit-content;
 }
+
+input {
+    padding: 10px;
+    margin: 5px;
+}
+
 .downloadLink {
     display: none;
 }

@@ -3,8 +3,26 @@ import styles from "../Styles/Player.module.css";
 import ReactPlayer from 'react-player';
 import playlistData from "../Template/playlist.json";
 import radioData from "../Template/radio.json";
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoadProgress, setPlayProgress, setPlayStatus, setSeekValue, setTotalPlaytime, setVolumeValue } from '../Redux/player/actions';
 
 const Player = () => {
+    const dispatch = useDispatch()
+    const {
+        play_status,
+        volume_value,
+        play_progress,
+        load_progress,
+        seek_value,
+        total_playtime,
+        remaining_playtime,
+        play_item,
+        playlist,
+        radiolist,
+        play_mode,
+        template_use_status
+    } = useSelector((state) => state.player)
+    
     const youtubeUrls = [
         "https://www.youtube.com/watch?v=saYfjjUQ6xw",
         "https://www.youtube.com/watch?v=8pfdxZAvKoU",
@@ -12,37 +30,31 @@ const Player = () => {
         "https://www.youtube.com/watch?v=x-KbnJ9fvJc",
         "https://www.youtube.com/watch?v=5qap5aO4i9A",
     ]
-    const [isPlayed, setPlayed] = useState(false);
-    const [volumeValue, setVolumeValue] = useState(1);
-    const [currentProgress, setCurrentProgress] = useState(0);
-    const [loadedProgress, setLoadedProgress] = useState(0);
-    const [remainingTime, setRemainingTime] = useState(0);
-    const [totalTime, setTotalTime] = useState(0);
-    const [seekValue, setSeekValue] = useState(0);
+
     const audioRef = useRef();
     
     const handlePlay = () => {
-        if(isPlayed === true){
+        if(play_status === true){
             let count = 1;
             let timeId = setInterval(() => {
                 count = (count) - 0.1
                 if(count >= 0){
-                    setVolumeValue(count)
+                    dispatch(setVolumeValue(count))
                 } else {
-                    setVolumeValue(0)
+                    dispatch(setVolumeValue(0))
                     clearInterval(timeId)
-                    setPlayed(!isPlayed)
+                    dispatch(setPlayStatus(!play_status))
                 }
             }, 150);
         } else {
-            setPlayed(!isPlayed)
+            dispatch(setPlayStatus(!play_status))
             let count = 0;
             let timeId = setInterval(() => {
                 count = (count) + 0.1
                 if(count <= 1){
-                    setVolumeValue(count)
+                    dispatch(setVolumeValue(count))
                 } else {
-                    setVolumeValue(1)
+                    dispatch(setVolumeValue(1))
                     clearInterval(timeId)
                 }
             }, 150);
@@ -51,16 +63,15 @@ const Player = () => {
     
     const handleVolumeChange = (e) => {
         let tempValue = e.target.value
-        setVolumeValue(tempValue)
+        dispatch(setVolumeValue(tempValue))
     }
     
     const handleProgress = (e) => {
         let tempLoad = e.loaded * 100
         let tempPlayed = e.played * 100
-        setCurrentProgress(tempPlayed+"%")
-        setLoadedProgress(tempLoad+"%")
-        setSeekValue(e.played)
-        
+        dispatch(setPlayProgress(tempPlayed+"%"))
+        dispatch(setLoadProgress(tempLoad+"%"))
+        dispatch(setSeekValue(tempPlayed+"%"))
     }
     
     const handleSeekChange = (e) => {
@@ -77,25 +88,25 @@ const Player = () => {
         <div className={styles.wrapper}>
             <ReactPlayer 
                 url="https://www.youtube.com/watch?v=NwdQx2P_ytk"
-                playing={isPlayed}
-                volume={volumeValue}
+                playing={play_status}
+                volume={volume_value}
                 controls={true}
                 onProgress={(e) => handleProgress(e)}
-                onDuration={(e) => setTotalTime(e)}
+                onDuration={(e) => dispatch(setTotalPlaytime(e))}
                 ref={audioRef}
                 loop={true}
-                width="0px"
-                height="0px"
+                // width="0px"
+                // height="0px"
             />
-            <button className={styles.playButton} onClick={() => handlePlay()}>{isPlayed !== true ? "Play" : "Pause"}</button>
+            <button className={styles.playButton} onClick={() => handlePlay()}>{play_status !== true ? "Play" : "Pause"}</button>
             <div className={styles.volumeDiv}>
-                <input value={volumeValue} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
-                <h3>Volume {Math.round(volumeValue * 100)}</h3>
+                <input value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
+                <h3>Volume {Math.round(volume_value * 100)}</h3>
             </div>
             <div className={styles.progressDiv} >
-                <div className={styles.progressLoad} style={{width: loadedProgress}}/>
-                <div className={styles.progressBarVisible} style={{width: currentProgress}}/>
-                <input className={styles.progressBar} value={seekValue} onChange={(e) => handleSeekChange(e)} type="range" min="0" max="1" step="0.001"/>
+                <div className={styles.progressLoad} style={{width: load_progress}}/>
+                <div className={styles.progressBarVisible} style={{width: play_progress}}/>
+                <input className={styles.progressBar} value={seek_value} onChange={(e) => handleSeekChange(e)} type="range" min="0" max="1" step="0.001"/>
             </div>
         </div>
     )
