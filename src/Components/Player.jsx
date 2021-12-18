@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from "../Styles/Player.module.css";
 import ReactPlayer from 'react-player';
-import data from "../Config/list.json"
-
+import playlistData from "../Config/playlist.json";
+import radioData from "../Config/radio.json";
 
 const Player = () => {
-    // const URL = "https://cloud-object-storage-20-bucket-01.s3.jp-tok.cloud-object-storage.appdomain.cloud/Ek%20Passe%20Tu%20Babbu%20-%20Sakhiyaan.mp3";
-    
     const youtubeUrls = [
         "https://www.youtube.com/watch?v=saYfjjUQ6xw",
         "https://www.youtube.com/watch?v=8pfdxZAvKoU",
@@ -71,9 +69,10 @@ const Player = () => {
     }
     
     useEffect(() => {
-        console.log(data)
+        console.log(playlistData);
+        console.log(radioData);
     }, []);
-   
+    
     return (
         <div className={styles.wrapper}>
             <ReactPlayer 
@@ -85,6 +84,8 @@ const Player = () => {
                 onDuration={(e) => setTotalTime(e)}
                 ref={audioRef}
                 loop={true}
+                width="0px"
+                height="0px"
             />
             <button className={styles.playButton} onClick={() => handlePlay()}>{isPlayed !== true ? "Play" : "Pause"}</button>
             <div className={styles.volumeDiv}>
