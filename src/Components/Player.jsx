@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from "../Styles/Player.module.css";
 import ReactPlayer from 'react-player';
-import playlistData from "../Config/playlist.json";
-import radioData from "../Config/radio.json";
+import playlistData from "../Template/playlist.json";
+import radioData from "../Template/radio.json";
 
 const Player = () => {
     const youtubeUrls = [
