@@ -1,13 +1,20 @@
 import React, { useRef, useState } from 'react';
 import styles from "../Styles/Template.module.css";
-import Modal from 'react-modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTempAPIKey, setEndPoint, setTempData } from '../Redux/template/actions';
 
+import Modal from 'react-modal';
 import mydata from "../Template/playlist.json";
 const Template = () => {
+    const dispatch = useDispatch()
     const [downloadUrl, setDownUrl] = useState(null)
-    const [endPoint, setEndPoint] = useState("channel")
-    const [apiKey, setAPIKey] = useState("")
-    const templateData = { "playlist": [], "radio": [] }
+    const {
+        tempKey, 
+        tempData, 
+        endPoint
+    } = useSelector((state) => state.template)
+    // const [apiKey, setAPIKey] = useState("")
+    // const templateData = { "playlist": [], "radio": [] }
     const myref= useRef();
    
     const download = (e) => {
@@ -25,7 +32,8 @@ const Template = () => {
     
     
     const handleSearch = () => {
-        
+        console.log(endPoint)
+        console.log(tempKey);
     }
     return (
         <div className={styles.wrapper}>
@@ -40,10 +48,10 @@ const Template = () => {
                 {/* <button onClick={(e) => download(e)}>Download</button><br></br> */}
                 <input
                     className={styles.keyInput}
-                    value={apiKey}
+                    value={tempKey}
                     type="text" 
                     placeholder='Youtube API key'
-                    onChange={(e) => setAPIKey(e.target.value)}
+                    onChange={(e) => dispatch(setTempAPIKey(e.target.value))}
                 />
                 <a 
                     className={styles.downloadLink}
@@ -57,9 +65,9 @@ const Template = () => {
                         <p className={styles.endPointText}>current endpoint is {endPoint}</p>
                     </div>
                     <div className={styles.endPointBtnDiv}>
-                        <button className={endPoint === "channel" ? styles.activeEndPoint : styles.endPointBtn} onClick={() => setEndPoint("channel")}>Channel</button>
-                        <button className={endPoint === "playlist" ? styles.activeEndPoint : styles.endPointBtn} onClick={() => setEndPoint("playlist")}>Playlist</button>
-                        <button className={endPoint === "video" ? styles.activeEndPoint : styles.endPointBtn} onClick={() => setEndPoint("video")}>Video</button>
+                        <button className={endPoint === "Channel" ? styles.activeEndPoint : styles.endPointBtn} onClick={() => dispatch(setEndPoint("Channel"))}>Channel</button>
+                        <button className={endPoint === "Playlist" ? styles.activeEndPoint : styles.endPointBtn} onClick={() => dispatch(setEndPoint("Playlist"))}>Playlist</button>
+                        <button className={endPoint === "Video" ? styles.activeEndPoint : styles.endPointBtn} onClick={() => dispatch(setEndPoint("Video"))}>Video</button>
                     </div>
                 </div>
                 <div className={styles.searchDiv}>

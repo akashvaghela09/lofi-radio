@@ -40,7 +40,6 @@
 }
 
 .endPointDiv {
-    /* clear: right; */
     display: flex;
     margin-top: 10px;
     background-color: #b2bec3;
@@ -55,7 +54,6 @@
     width: 50%;
     display: flex;
     justify-content: flex-end;
-    /* flex-direction: column; */
 }
 
 .endPointBtn, .activeEndPoint {
@@ -80,13 +78,11 @@
 }
 
 .searchInputDiv {
-    width: 90%;
-    
+    width: 85%;
 }
 
 .searchBtnDiv{
-    width: 10%;
-    
+    width: 15%;
 }
 
 .searchInput {
