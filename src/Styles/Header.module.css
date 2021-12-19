@@ -1,0 +1,69 @@
+.blur, .header {
+    backdrop-filter: blur( 60px );
+    -webkit-backdrop-filter: blur( 60px );
+}
+
+.link, .activeLink {
+    all: unset;
+    color: white;
+    text-decoration: none;
+}
+
+.activeLink {
+    color: #00a8ff;
+}
+
+.header {
+    z-index: 200;
+    width: 100%;
+    position: sticky;
+    top: 0px;
+    display: flex;
+    border-bottom: 2px solid rgba(102, 102, 102, 0.5);
+}
+
+.headerItem, .pageNameDiv {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.headerItem:hover {
+    color: #7ed6df;
+}
+
+.pageNameDiv {
+    background: #9EE5EE;
+    background: -webkit-linear-gradient(top left, #9EE5EE, #011929);
+    background: -moz-linear-gradient(top left, #9EE5EE, #011929);
+    background: linear-gradient(to bottom right, #9EE5EE, #011929);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.pageNameDiv:hover {
+    background: #9EE5EE;
+    background: -webkit-linear-gradient(top left, #9EE5EE, #0164A8);
+    background: -moz-linear-gradient(top left, #9EE5EE, #0164A8);
+    background: linear-gradient(to bottom right, #9EE5EE, #0164A8);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.headerText, .pageName {
+    font-size: 23px;
+    user-select: none;
+    font-weight: 500;
+}
+
+.pageName {
+    font-weight: bolder;
+}
+
+.headerItemIcon {
+    font-size: 25px;
+    margin: 0px 10px;
+}

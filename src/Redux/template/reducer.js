@@ -1,17 +1,20 @@
 import { 
     SET_ENDPOINT,
     SET_TEMP_DATA,
-    SET_TEMP_API_KEY
+    SET_TEMP_API_KEY,
+    SET_PLAYLIST_RESULTS,
+    SET_PLAYLIST_ITEM_RESULTS
 } from './actionTypes';
 
 const initialState = {
-    endPoint: "Channel",
+    endPoint: "",
     tempData: [],
     tempKey: "",
+    playlistResults: [],
+    playlistItemResults: []
 }
 
 const reducer = (state = initialState, {type, payload}) => {
-
     switch (type) {
         case SET_ENDPOINT:
             return {
@@ -27,6 +30,16 @@ const reducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 tempKey: payload
+            }
+        case SET_PLAYLIST_RESULTS:
+            return {
+                ...state,
+                playlistResults: payload
+            }
+        case SET_PLAYLIST_ITEM_RESULTS:
+            return {
+                ...state,
+                playlistItemResults: payload
             }
         default:
             return state
