@@ -24,7 +24,7 @@
 }
 
 .configDiv {
-    width: 50%;
+    width: 90%;
 }
 
 .loadBtn, .previewBtn {
@@ -96,6 +96,21 @@
 }
 
 .resultDiv {
-    width: 50%;
+    width: 70%;
     border: 1px solid red;
+}
+
+.playlistResult {
+    display: flex;
+    border: 1px solid gray;
+    margin: 5px;
+    cursor: pointer;
+    background-color: rgb(194, 194, 194);
+    /* justify-content: space-between; */
+    flex-direction: column;
+}
+
+.playlistResultHeader {
+    display: flex;
+    justify-content: space-between;
 }

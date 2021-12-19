@@ -1,7 +1,8 @@
 import { 
     SET_ENDPOINT,
     SET_TEMP_DATA,
-    SET_TEMP_API_KEY
+    SET_TEMP_API_KEY,
+    SET_PLAYLIST_RESULTS
 } from './actionTypes';
 
 const setEndPoint = (payload) => {
@@ -25,9 +26,17 @@ const setTempAPIKey = (payload) => {
     }
 }
 
+const setPlaylistResults = (payload) => {
+    return {
+        type: SET_PLAYLIST_RESULTS,
+        payload
+    }
+}
+
 
 export { 
     setEndPoint,
     setTempData,
-    setTempAPIKey
+    setTempAPIKey,
+    setPlaylistResults
 }
