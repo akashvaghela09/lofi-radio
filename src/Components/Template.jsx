@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from "../Styles/Template.module.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { setTempAPIKey, setEndPoint, setTempData, setPlaylistResults } from '../Redux/template/actions';
+import { setTempAPIKey, setEndPoint, setTempData, setPlaylistResults, setPlaylistItemResults } from '../Redux/template/actions';
 import axios from "axios";
 import Modal from 'react-modal';
 import mydata from "../Template/playlist.json";
-import { v4 as uuid } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 const Template = () => {
     const dispatch = useDispatch()
@@ -14,7 +14,8 @@ const Template = () => {
         tempKey, 
         tempData, 
         endPoint,
-        playlistResults
+        playlistResults,
+        playlistItemResults
     } = useSelector((state) => state.template)
     const [loadPlaylistOpen, setLoadPlaylistOpen] = useState(false)
     const [currentPlaylistOpenId, setCurrentPlaylistOpenId] = useState("")
@@ -47,8 +48,9 @@ const Template = () => {
             let response = res.data.items;
             for(let i = 0; i < response.length; i++){
                 let tempItem = response[i].snippet
+                let tempId = uuidv4()
                 let tempItemObj = {
-                    "id": uuid(),
+                    "id": tempId,
                     "title": tempItem.title,
                     "channelTitle": tempItem.channelTitle,
                     "thumbnails" : tempItem.thumbnails,
@@ -61,8 +63,32 @@ const Template = () => {
         })
     }
     
-    const handlePlaylistSearch = () => {
-        
+    const handlePlaylistItemSearch = (para) => {
+        axios.get(`https://www.googleapis.com/youtube/v3/playlistItems`, {
+        params: {
+            key : process.env.REACT_APP_KEY,
+            maxResults: 50,
+            part: 'snippet',
+            playlistId: para,
+            // pageToken: "EAAaB1BUOkNNZ0I"
+        }})
+        .then((res) => {
+            let myArray = []
+            let response = res.data.items;
+            for(let i = 0; i < response.length; i++){
+                let tempItem = response[i].snippet
+                const tempId = uuidv4()
+                let tempItemObj = {
+                    "id": tempId,
+                    "title": tempItem.title,
+                    "channelTitle": tempItem.channelTitle,
+                    "thumbnails" : tempItem.thumbnails,
+                    "videoId": tempItem.resourceId.videoId
+                }
+                myArray.push(tempItemObj)
+            }
+            dispatch(setPlaylistItemResults([...myArray]));
+        })
     }
     
     const handleVideoSearch = () => {
@@ -79,7 +105,7 @@ const Template = () => {
                 handleVideoSearch()
                 break;
             case "Playlist Item":
-                handlePlaylistSearch()
+                handlePlaylistItemSearch()
                 break;
             default:
                 break;
@@ -91,11 +117,37 @@ const Template = () => {
         setCurrentPlaylistOpenId(para.id)
     }
     
-    const LoadPlayListItem = () => {
+    const LoadPlayListItem = (para) => {
+        const { playlistId } = para.data
+        
+        useEffect(() => {
+            handlePlaylistItemSearch(playlistId)
+        }, []);
         return (
-            <div>Playlist items</div>
+            <div className={styles.playlistWrapper}>
+                {
+                    playlistItemResults.length > 0 && 
+                    <div>
+                        <button>Add Selected Videos</button>
+                        <button>Add All Videos</button>
+                        <button>Clear Selection</button>
+                    </div>
+                }
+                {
+                    playlistItemResults.map((el) => {
+                        return <div key={el.id} className={styles.playlistItemWrapper}>
+                            <div className={styles.playlistItem}>
+                                <p>{el.title}</p>
+                                <button>Load Video Data</button>
+                            </div>
+                            
+                        </div>
+                    })
+                }
+            </div>
         )
     }
+    
     return (
         <div className={styles.wrapper}>
             <div className={styles.titleDiv}>
@@ -148,18 +200,19 @@ const Template = () => {
                             <div className={styles.playlistResultHeader}>
                                 <p>{el.title}</p>
                                 <button onClick={() => handleLoadPlaylist(el)}>
-                                    {loadPlaylistOpen === true && currentPlaylistOpenId === el.id ? "close" : "load playlist"}
+                                    {loadPlaylistOpen === true && currentPlaylistOpenId === el.id ? "close" : "Load Playlist Data"}
                                 </button>
                             </div>
                             <div>
                                 {
-                                    loadPlaylistOpen === true && currentPlaylistOpenId === el.id  && <LoadPlayListItem />
+                                    loadPlaylistOpen === true && currentPlaylistOpenId === el.id  && <LoadPlayListItem data={el}/>
                                 }
                             </div>
                         </div>
                     })
                 }
             </div>
+            <button onClick={() => console.log(playlistItemResults)}>Check</button>
         </div>
     )
 }
