@@ -6,7 +6,7 @@ import {
 } from './actionTypes';
 
 const initialState = {
-    endPoint: "Channel",
+    endPoint: "",
     tempData: [],
     tempKey: "",
     playlistResults: []

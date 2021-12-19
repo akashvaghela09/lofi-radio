@@ -72,13 +72,13 @@ const Template = () => {
     
     const handleSearch = () => {
         switch (endPoint) {
-            case "Channel":
+            case "Playlist":
                 handlePlaylistSearchFromChannel()
                 break;
             case "Video":
                 handleVideoSearch()
                 break;
-            case "Playlist":
+            case "Playlist Item":
                 handlePlaylistSearch()
                 break;
             default:
