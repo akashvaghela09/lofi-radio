@@ -6,7 +6,6 @@ import allData from "./Template/template.json";
 import { setPlaylist, setRadiolist, setUrlList, setPlayItem } from "./Redux/player/actions";
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import { prepareData } from "./Utils/prepareData";
 
 function App() {
   const dispatch = useDispatch();
