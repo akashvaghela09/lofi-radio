@@ -9,9 +9,9 @@
 
 .cardSection {
     display: flex;
-    width: fit-content;
+    width: 1110px;
     flex-wrap: wrap;
-    margin: 0 8%;
+    margin: 0 auto;
     padding: 10px 0px;
 }
 
@@ -44,6 +44,7 @@
 .playBtnDiv:hover {
     opacity: 1;
     background-color: hsl(0, 0%, 0%, 0.6);
+    border-radius: 6px;
 }
 
 .playBtn {
@@ -55,6 +56,7 @@
     -webkit-backdrop-filter: blur( 3px );
     background-color: hsl(0, 0%, 100%, 0.3);
     cursor: pointer;
+    user-select: none;
 }
 
 .playBtn:hover {
@@ -91,4 +93,64 @@
 
 .cardChannelTitle {
     color: darkgray;
+}
+
+@media screen and (max-width: 1200px) {
+    
+    .cardSection {
+        width: 900px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    
+    .cardSection {
+        width: 90%;
+    }
+        
+    .card {
+        width: 150px;
+        margin: 10px;
+    }
+
+    .cardCover {
+        width: 150px;
+        height: 150px;
+    }
+
+    .playBtnDiv {
+        width: 150px;
+        height: 150px;
+    }
+
+    .playBtn {
+        font-size: 30px;
+    }
+
+    .playBtn:hover {
+        font-size: 35px;
+    }
+
+    .radioIconDiv {
+        top: 115px;
+        padding: 5px;
+    }
+
+    .radioIcon {
+        font-size: 20px;
+    }
+
+    .cardTitle, .cardChannelTitle {
+        margin: 0px;
+        width: 150px;
+    }
+
+    .cardTitle{
+        font-size: 18px;
+        margin-top: 5px;
+    }
+
+    .cardChannelTitle {
+        font-size: 15px;
+    }
 }
