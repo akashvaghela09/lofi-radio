@@ -1,24 +1,27 @@
 .wrapper {
-    border: 1px solid red;
-    padding: 20px;
+    /* padding: 20px; */
     border-radius: 6px;
     display: flex;
     flex-direction: column;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    backdrop-filter: blur(40px);
+    /* border: 1px solid red; */
+    width: calc(100% - 10px);
+    /* background-color: rgb(255, 255, 255, 0.5); */
+    z-index: 200;
 }
 
-.playButton {
-    padding: 10px 30px;
-    border-radius: 6px;
-    border: 3px solid #16a085;
-    background-color: #1abc9c;
+.hide {
+    display: none;
 }
 
-.playButton:hover {
-    background-color: #16a085;
-}
-
-.playButton:active {
-    background-color: #1abc9c;
+.toggle {
+    position: fixed;
+    top: 0px;
+    right: 30px;
+    z-index: 500;
 }
 
 .volumeDiv {
@@ -26,30 +29,172 @@
 }
 
 .progressDiv {
-    border: 1px solid black;
     position: relative;
-    min-height: 15px;
+    min-height: 5px;
+    height: 5px;
+    background-color: black;
 }
 
 .progressBar {
     width: 100%;
     opacity: 0;
-    height: 10px;
-    /* display: none; */
+    height: 5px;
+    background: transparent;
+    position: absolute;
+    top: 0px;
+    -webkit-appearance: none;
+}
+
+.progressBar::-webkit-slider-runnable-track {
+    background: transparent;
+}
+
+.progressBar::-webkit-slider-thumb {
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.progressBar:hover {
+    opacity: 1;
+    cursor: pointer;
 }
 
 .progressLoad {
     background-color: #b2bec3;
     width: 100%;
-    height: 15px;
+    height: 5px;
     position: absolute;
     top: 0px;
 }
 
 .progressBarVisible {
-    background-color: #74b9ff;
+    background-color: #00b894;
     width: 100%;
-    height: 15px;
+    height: 5px;
     position: absolute;
     top: 0px;
+    
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+}
+
+.playerBarCoverSection, .playerBarControlSection, .playerBarQueueSection {
+    height: 80px;
+}
+
+.playeyBarCoverDiv {
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.playerBarCover {
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.playerBarCoverSection {
+    width: 25%;
+    display: flex;
+}
+
+.playerBarControlSection {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.playerBarControlIcons,
+.playerBarRepeatIcon,
+.playerBarRepeatOneIcon,
+.playerBarPauseIcon,
+.playerBarPrevIcon,
+.playerBarPlayIcon,
+.playerBarNextIcon,
+.playerBarShuffleIcon,
+.playerBarVolumeIcon,
+.playerBarQueueIcon {
+    font-size: 30px;
+    margin: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.playerBarControlIcons:hover,
+.playerBarRepeatIcon:hover,
+.playerBarRepeatOneIcon:hover,
+.playerBarPrevIcon:hover,
+.playerBarNextIcon:hover,
+.playerBarShuffleIcon:hover,
+.playerBarVolumeIcon:hover,
+.playerBarQueueIcon:hover {
+    color: #00d9ff;
+}
+
+.playerBarQueueIcon {
+    margin-right: 40px;
+}
+
+.playerBarPlayIcon, .playerBarPauseIcon {
+    font-size: 30px;
+    border-radius: 50%;
+    padding: 8px;
+    color: white;
+    backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3px );
+    background-color: hsl(0, 0%, 100%, 0.3);
+    cursor: pointer;
+    user-select: none;
+    margin: 5px;
+}
+
+.playerBarPlayIcon:hover, .playerBarPauseIcon:hover {
+    font-size: 35px;
+    background-color: hsl(0, 0%, 100%, 0.5);
+    margin: 2.5px;
+}
+
+.playerBarQueueSection {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.playerBarCoverSectionData {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    justify-content: center;
+}
+
+.playerBarCoverTitle, .playerBarCoverChannel {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    width: 100%;
+}
+
+.playerBarCoverTitle {
+    font-size: 18px;
+    color: white;
+}
+
+.playerBarCoverChannel {
+    font-size: 15px;
+    color: rgb(189, 189, 189);
 }

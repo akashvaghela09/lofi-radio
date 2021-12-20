@@ -14,6 +14,7 @@ const Header = () => {
                 <p className={styles.pageName}>Lofi Player</p>
             </div>
             </Link>
+            <div className={styles.headerItemWrapper}>
             <Link to="/radio" className={location.pathname === "/radio" ? styles.activeLink : styles.link}>
             <div className={styles.headerItem}>
                 <VscRadioTower className={styles.headerItemIcon}/>
@@ -26,6 +27,7 @@ const Header = () => {
                 <p className={styles.headerText}>Playlist</p>
             </div>
             </Link>
+            </div>
         </div>
     )
 }

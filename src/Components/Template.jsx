@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setTempAPIKey, setEndPoint, setTempData, setPlaylistResults, setPlaylistItemResults } from '../Redux/template/actions';
 import axios from "axios";
 import Modal from 'react-modal';
-import mydata from "../Template/playlist.json";
 import { v4 as uuidv4 } from 'uuid';
 
 const Template = () => {
@@ -25,7 +24,7 @@ const Template = () => {
         e.preventDefault();
           
         // Prepare the file
-        let output = JSON.stringify({states: mydata}, null, 4); 
+        let output = JSON.stringify({states: {}}, null, 4); 
         
         // Download it
         const blob = new Blob([output]);
