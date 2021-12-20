@@ -10,7 +10,8 @@ import {
     SET_PLAYLIST,
     SET_RADIOLIST,
     SET_PLAY_MODE,
-    SET_TEMPLATE_USE_STATUS
+    SET_TEMPLATE_USE_STATUS,
+    SET_URL_LIST
 } from './actionTypes';
 
 const setPlayStatus = (payload) => {
@@ -97,6 +98,13 @@ const setTemplateUseStatus = (payload) => {
     }
 }
 
+const setUrlList = (payload) => {
+    return {
+        type: SET_URL_LIST,
+        payload
+    }
+}
+
 export { 
     setPlayStatus,
     setVolumeValue,
@@ -109,5 +117,6 @@ export {
     setPlaylist,
     setRadiolist,
     setPlayMode,
-    setTemplateUseStatus
+    setTemplateUseStatus,
+    setUrlList
 }

@@ -10,7 +10,8 @@ import {
     SET_PLAYLIST,
     SET_RADIOLIST,
     SET_PLAY_MODE,
-    SET_TEMPLATE_USE_STATUS
+    SET_TEMPLATE_USE_STATUS,
+    SET_URL_LIST
 } from './actionTypes';
 
 const initialState = {
@@ -21,11 +22,12 @@ const initialState = {
     seek_value: 0,
     total_playtime: 0,
     remaining_playtime: 0,
-    play_item: {},
+    play_item: { "radioName": "", "channelTitle": "", "channel_url": "", "thumbnails": {"medium": {"url": ""}, "maxres": {"url": ""}}, "title": "", "video_url": ""},
     playlist: [],
     radiolist: [],
     play_mode: "radio",
-    template_use_status: false
+    template_use_status: false,
+    urlList: []
 }
 
 const reducer = (state = initialState, {type, payload}) => {
@@ -90,6 +92,11 @@ const reducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 template_use_status: payload
+            }
+        case SET_URL_LIST:
+            return {
+                ...state,
+                urlList: payload
             }
         default:
             return state
