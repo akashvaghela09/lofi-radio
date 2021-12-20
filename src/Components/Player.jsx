@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from "../Styles/Player.module.css";
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoadProgress, setPlayProgress, setPlayStatus, setSeekValue, setTotalPlaytime, setVolumeValue } from '../Redux/player/actions';
+import { setLoadProgress, setPlayItem, setPlayProgress, setPlayStatus, setSeekValue, setTotalPlaytime, setPlayItemIndex, setVolumeValue } from '../Redux/player/actions';
 import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import { BiShuffle } from "react-icons/bi";
 import { MdRepeatOne, MdRepeat } from "react-icons/md";
@@ -15,7 +15,7 @@ const Player = () => {
     const location = window.location.pathname;
     const [playerVisible, setPlayerVisible] = useState(false);
     const [playerBarPlayStatus, setPlayerBarPlayStatus] = useState(false);
-    const [playerBarURL, setPlayerBarURL] = useState("")
+    const [show, setShow] = useState(false)
     const {
         play_status,
         volume_value,
@@ -29,46 +29,40 @@ const Player = () => {
         radiolist,
         play_mode,
         template_use_status,
-        urlList
+        play_item_index,
+        current_playlist_id
     } = useSelector((state) => state.player)
     
-    const youtubeUrls = [
-        "https://www.youtube.com/watch?v=saYfjjUQ6xw",
-        "https://www.youtube.com/watch?v=8pfdxZAvKoU",
-        "https://www.youtube.com/watch?v=xitd9mEZIHk",
-        "https://www.youtube.com/watch?v=x-KbnJ9fvJc",
-        "https://www.youtube.com/watch?v=5qap5aO4i9A",
-    ]
-
     const audioRef = useRef();
+    const volumeRef = useRef();
     
     const handlePlay = () => {
         if(play_status === true){
             setPlayerBarPlayStatus(false)
-            let count = 1;
-            let timeId = setInterval(() => {
-                count = (count) - 0.1
-                if(count >= 0){
-                    dispatch(setVolumeValue(count))
-                } else {
-                    dispatch(setVolumeValue(0))
-                    clearInterval(timeId)
+            // let count = 1;
+            // let timeId = setInterval(() => {
+            //     count = (count) - 0.1
+            //     if(count >= 0){
+            //         dispatch(setVolumeValue(count))
+            //     } else {
+            //         dispatch(setVolumeValue(0))
+            //         clearInterval(timeId)
                     dispatch(setPlayStatus(!play_status))
-                }
-            }, 150);
+            //     }
+            // }, 150);
         } else {
             setPlayerBarPlayStatus(true)
             dispatch(setPlayStatus(!play_status))
-            let count = 0;
-            let timeId = setInterval(() => {
-                count = (count) + 0.1
-                if(count <= 1){
-                    dispatch(setVolumeValue(count))
-                } else {
-                    dispatch(setVolumeValue(1))
-                    clearInterval(timeId)
-                }
-            }, 150);
+            // let count = 0;
+            // let timeId = setInterval(() => {
+            //     count = (count) + 0.1
+            //     if(count <= 1){
+            //         dispatch(setVolumeValue(count))
+            //     } else {
+            //         dispatch(setVolumeValue(1))
+            //         clearInterval(timeId)
+            //     }
+            // }, 150);
         }
     }
     
@@ -91,6 +85,19 @@ const Player = () => {
         audioRef.current.seekTo(tempSeek, "fraction")
     }
     
+    const setPlayerInitialData = (para) => {
+        if(((play_item_index + 1) !== radiolist.length) && para === "next"){
+            dispatch(setPlayItemIndex(play_item_index + 1))
+            dispatch(setPlayItem(radiolist[play_item_index+1]))
+        }  else if (((play_item_index) !== 0) && para === "prev") {
+            dispatch(setPlayItemIndex(play_item_index - 1))
+            dispatch(setPlayItem(radiolist[play_item_index-1]))
+        }
+    }
+    
+    const check = () => {
+        setShow(!show)
+    }
  
     useEffect(() => {
         
@@ -98,7 +105,7 @@ const Player = () => {
             case "/":
             case "/radio":
             case "/playlist":
-                setPlayerVisible(true)   
+                setPlayerVisible(true)  
                 break;
             default:
             setPlayerVisible(false)
@@ -110,7 +117,7 @@ const Player = () => {
         return (
         <div className={playerVisible === true ? styles.wrapper : styles.hide}>
             <ReactPlayer 
-                url={urlList}
+                url={play_item.video_url}
                 playing={play_status}
                 volume={volume_value}
                 controls={true}
@@ -139,19 +146,20 @@ const Player = () => {
                 <div className={styles.playerBarControlSection}>
                     {/* <MdRepeatOne className={styles.playerBarRepeatOneIcon}/> */}
                     {/* <MdRepeat className={styles.playerBarRepeatIcon}/> */}
-                    <CgPlayTrackPrev className={styles.playerBarPrevIcon}/>
+                    <CgPlayTrackPrev onClick={() => setPlayerInitialData("prev")} className={styles.playerBarPrevIcon}/>
                     {
-                        playerBarPlayStatus === true ? 
+                        play_status === true ? 
                         <BsPauseFill onClick={() => handlePlay()} className={styles.playerBarPauseIcon}/>
                         :
                         <BsPlayFill onClick={() => handlePlay()} className={styles.playerBarPlayIcon}/>
                     }
-                    <CgPlayTrackNext className={styles.playerBarNextIcon}/>
+                    <CgPlayTrackNext onClick={() => setPlayerInitialData("next")} className={styles.playerBarNextIcon}/>
                     {/* <BiShuffle className={styles.playerBarShuffleIcon}/> */}
                 </div>
                 <div className={styles.playerBarQueueSection}>
                     <IoVolumeMedium className={styles.playerBarVolumeIcon}/>
-                    <RiPlayListFill className={styles.playerBarQueueIcon}/>
+                            {/* <input ref={volumeRef} id="volumeSetter"  value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/> */}
+                    <RiPlayListFill onClick={() => check()} className={styles.playerBarQueueIcon}/>
                     {/* <div className={styles.volumeDiv}>
                         <input value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
                         <h3>Volume {Math.round(volume_value * 100)}</h3>
