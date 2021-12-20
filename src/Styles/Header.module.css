@@ -16,14 +16,20 @@
 .header {
     z-index: 200;
     width: 100%;
+    height: 60px;
     position: sticky;
     top: 0px;
     display: flex;
+    align-items: center;
     border-bottom: 2px solid rgba(102, 102, 102, 0.5);
 }
 
+.headerItemWrapper {
+    display: flex;
+}
+
 .headerItem, .pageNameDiv {
-    margin: 20px;
+    margin: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -36,9 +42,9 @@
 
 .pageNameDiv {
     background: #21D7F5;
-background: -webkit-linear-gradient(top, #21D7F5, #C753CC);
-background: -moz-linear-gradient(top, #21D7F5, #C753CC);
-background: linear-gradient(to bottom, #21D7F5, #C753CC);
+    background: -webkit-linear-gradient(top, #21D7F5, #C753CC);
+    background: -moz-linear-gradient(top, #21D7F5, #C753CC);
+    background: linear-gradient(to bottom, #21D7F5, #C753CC);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -66,4 +72,34 @@ background: linear-gradient(to bottom, #21D7F5, #C753CC);
 .headerItemIcon {
     font-size: 25px;
     margin: 0px 10px;
+}
+
+@media screen and (max-width: 600px) {
+    
+    .header {
+        justify-content: space-between;
+    }
+    
+    /* .pageNameDiv {
+        width: 50px;
+    }
+    
+    .pageName {
+        font-size: 18px;
+    }
+     */
+    .headerItemWrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 10px;
+    }
+
+    .headerItem {
+        margin: 0px;
+        
+    }    
+    .headerText {
+        display: none;
+    }
 }
