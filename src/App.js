@@ -3,7 +3,7 @@ import styles from  './App.module.css';
 import { AllRoutes } from './Routes/AllRoutes';
 import { Player } from "./Components/Player";
 import allData from "./Template/template.json";
-import { setPlaylist, setRadiolist, setUrlList, setPlayItem } from "./Redux/player/actions";
+import { setPlaylist, setRadiolist, setPlayItem, setPlayItemIndex } from "./Redux/player/actions";
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 
@@ -16,9 +16,10 @@ function App() {
     // add id to every item
     for(let i = 0; i < tempPlaylist.length; i++){
       let tempItem = tempPlaylist[i].playlist_content;
+      tempPlaylist[i]["id"] = uuid();
       
       for(let j = 0; j < tempItem.length; j++){
-        tempItem[j]["id"] = uuid()
+        tempItem[j]["id"] = uuid();
       }
     }
   }
@@ -31,7 +32,7 @@ function App() {
     }
     
     dispatch(setPlayItem(arr[0]))
-    dispatch(setUrlList(tempArr))
+    dispatch(setPlayItemIndex(0))
   }
   
   useEffect(() => {

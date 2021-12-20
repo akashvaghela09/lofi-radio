@@ -11,7 +11,8 @@ import {
     SET_RADIOLIST,
     SET_PLAY_MODE,
     SET_TEMPLATE_USE_STATUS,
-    SET_URL_LIST
+    SET_PLAY_ITEM_INDEX,
+    SET_CURRENT_PLAYLIST_ID
 } from './actionTypes';
 
 const setPlayStatus = (payload) => {
@@ -98,9 +99,16 @@ const setTemplateUseStatus = (payload) => {
     }
 }
 
-const setUrlList = (payload) => {
+const setPlayItemIndex = (payload) => {
     return {
-        type: SET_URL_LIST,
+        type: SET_PLAY_ITEM_INDEX,
+        payload
+    }
+}
+
+const setCurrentPlaylistId = (payload) => {
+    return {
+        type: SET_CURRENT_PLAYLIST_ID,
         payload
     }
 }
@@ -118,5 +126,6 @@ export {
     setRadiolist,
     setPlayMode,
     setTemplateUseStatus,
-    setUrlList
+    setPlayItemIndex,
+    setCurrentPlaylistId
 }
