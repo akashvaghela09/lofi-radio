@@ -160,6 +160,10 @@
     margin: 5px;
 }
 
+.playerBarPlayIcon {
+    padding: 10px 8px 8px 12px;
+}
+
 .playerBarPlayIcon:hover, .playerBarPauseIcon:hover {
     font-size: 35px;
     background-color: hsl(0, 0%, 100%, 0.5);
