@@ -12,7 +12,9 @@ import {
     SET_PLAY_MODE,
     SET_TEMPLATE_USE_STATUS,
     SET_PLAY_ITEM_INDEX,
-    SET_CURRENT_PLAYLIST_ID
+    SET_CURRENT_PLAYLIST_ID,
+    SET_LOOP_STATUS,
+    SET_SHUFFLE_STATUS
 } from './actionTypes';
 
 const setPlayStatus = (payload) => {
@@ -113,6 +115,20 @@ const setCurrentPlaylistId = (payload) => {
     }
 }
 
+const setLoopStatus = (payload) => {
+    return {
+        type: SET_LOOP_STATUS,
+        payload
+    }
+}
+
+const setShuffleStatus = (payload) => {
+    return {
+        type: SET_SHUFFLE_STATUS,
+        payload
+    }
+}
+
 export { 
     setPlayStatus,
     setVolumeValue,
@@ -127,5 +143,7 @@ export {
     setPlayMode,
     setTemplateUseStatus,
     setPlayItemIndex,
-    setCurrentPlaylistId
+    setCurrentPlaylistId,
+    setLoopStatus,
+    setShuffleStatus
 }
