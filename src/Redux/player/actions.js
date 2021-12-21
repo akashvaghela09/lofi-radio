@@ -11,7 +11,11 @@ import {
     SET_RADIOLIST,
     SET_PLAY_MODE,
     SET_TEMPLATE_USE_STATUS,
-    SET_URL_LIST
+    SET_PLAY_ITEM_INDEX,
+    SET_CURRENT_PLAYLIST_ID,
+    SET_LOOP_STATUS,
+    SET_SHUFFLE_STATUS,
+    SET_MUTE_STATUS
 } from './actionTypes';
 
 const setPlayStatus = (payload) => {
@@ -98,9 +102,37 @@ const setTemplateUseStatus = (payload) => {
     }
 }
 
-const setUrlList = (payload) => {
+const setPlayItemIndex = (payload) => {
     return {
-        type: SET_URL_LIST,
+        type: SET_PLAY_ITEM_INDEX,
+        payload
+    }
+}
+
+const setCurrentPlaylistId = (payload) => {
+    return {
+        type: SET_CURRENT_PLAYLIST_ID,
+        payload
+    }
+}
+
+const setLoopStatus = (payload) => {
+    return {
+        type: SET_LOOP_STATUS,
+        payload
+    }
+}
+
+const setShuffleStatus = (payload) => {
+    return {
+        type: SET_SHUFFLE_STATUS,
+        payload
+    }
+}
+
+const setMuteStatus = (payload) => {
+    return {
+        type: SET_MUTE_STATUS,
         payload
     }
 }
@@ -118,5 +150,9 @@ export {
     setRadiolist,
     setPlayMode,
     setTemplateUseStatus,
-    setUrlList
+    setPlayItemIndex,
+    setCurrentPlaylistId,
+    setLoopStatus,
+    setShuffleStatus,
+    setMuteStatus
 }

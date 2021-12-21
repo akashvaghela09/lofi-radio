@@ -2,12 +2,25 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from "../Styles/Player.module.css";
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoadProgress, setPlayProgress, setPlayStatus, setSeekValue, setTotalPlaytime, setVolumeValue } from '../Redux/player/actions';
+import { 
+            setLoadProgress, 
+            setPlayItem, 
+            setPlayProgress, 
+            setPlayStatus, 
+            setSeekValue, 
+            setTotalPlaytime, 
+            setPlayItemIndex, 
+            setVolumeValue, 
+            setLoopStatus,
+            setShuffleStatus,
+            setMuteStatus 
+} from '../Redux/player/actions';
+
 import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import { BiShuffle } from "react-icons/bi";
 import { MdRepeatOne, MdRepeat } from "react-icons/md";
 import { RiPlayListFill } from "react-icons/ri";
-import { IoVolumeMedium } from "react-icons/io5";
+import { IoVolumeHigh, IoVolumeMute } from "react-icons/io5";
 import { CgPlayTrackNext, CgPlayTrackPrev } from "react-icons/cg";
 
 const Player = () => {
@@ -15,7 +28,8 @@ const Player = () => {
     const location = window.location.pathname;
     const [playerVisible, setPlayerVisible] = useState(false);
     const [playerBarPlayStatus, setPlayerBarPlayStatus] = useState(false);
-    const [playerBarURL, setPlayerBarURL] = useState("")
+    
+    const [show, setShow] = useState(false)
     const {
         play_status,
         volume_value,
@@ -29,52 +43,50 @@ const Player = () => {
         radiolist,
         play_mode,
         template_use_status,
-        urlList
+        play_item_index,
+        current_playlist_id,
+        loop_status,
+        shuffle_status,
+        mute_status
     } = useSelector((state) => state.player)
     
-    const youtubeUrls = [
-        "https://www.youtube.com/watch?v=saYfjjUQ6xw",
-        "https://www.youtube.com/watch?v=8pfdxZAvKoU",
-        "https://www.youtube.com/watch?v=xitd9mEZIHk",
-        "https://www.youtube.com/watch?v=x-KbnJ9fvJc",
-        "https://www.youtube.com/watch?v=5qap5aO4i9A",
-    ]
-
     const audioRef = useRef();
+    const volumeRef = useRef();
     
     const handlePlay = () => {
         if(play_status === true){
             setPlayerBarPlayStatus(false)
-            let count = 1;
-            let timeId = setInterval(() => {
-                count = (count) - 0.1
-                if(count >= 0){
-                    dispatch(setVolumeValue(count))
-                } else {
-                    dispatch(setVolumeValue(0))
-                    clearInterval(timeId)
+            // let count = 1;
+            // let timeId = setInterval(() => {
+            //     count = (count) - 0.1
+            //     if(count >= 0){
+            //         dispatch(setVolumeValue(count))
+            //     } else {
+            //         dispatch(setVolumeValue(0))
+            //         clearInterval(timeId)
                     dispatch(setPlayStatus(!play_status))
-                }
-            }, 150);
+            //     }
+            // }, 150);
         } else {
             setPlayerBarPlayStatus(true)
             dispatch(setPlayStatus(!play_status))
-            let count = 0;
-            let timeId = setInterval(() => {
-                count = (count) + 0.1
-                if(count <= 1){
-                    dispatch(setVolumeValue(count))
-                } else {
-                    dispatch(setVolumeValue(1))
-                    clearInterval(timeId)
-                }
-            }, 150);
+            // let count = 0;
+            // let timeId = setInterval(() => {
+            //     count = (count) + 0.1
+            //     if(count <= 1){
+            //         dispatch(setVolumeValue(count))
+            //     } else {
+            //         dispatch(setVolumeValue(1))
+            //         clearInterval(timeId)
+            //     }
+            // }, 150);
         }
     }
     
     const handleVolumeChange = (e) => {
         let tempValue = e.target.value
         dispatch(setVolumeValue(tempValue))
+        dispatch(setMuteStatus(false))
     }
     
     const handleProgress = (e) => {
@@ -91,6 +103,27 @@ const Player = () => {
         audioRef.current.seekTo(tempSeek, "fraction")
     }
     
+    const setPlayerInitialData = (para) => {
+        if(((play_item_index + 1) !== radiolist.length) && para === "next"){
+            dispatch(setPlayItemIndex(play_item_index + 1))
+            dispatch(setPlayItem(radiolist[play_item_index+1]))
+        }  else if (((play_item_index) !== 0) && para === "prev") {
+            dispatch(setPlayItemIndex(play_item_index - 1))
+            dispatch(setPlayItem(radiolist[play_item_index-1]))
+        }
+    }
+    
+    const handleLoop = (para) => {
+        dispatch(setLoopStatus(para))
+    }
+    
+    const handleShuffle = () => {
+        dispatch(setShuffleStatus(!shuffle_status))
+    }
+    
+    const handleMute = () => {
+        dispatch(setMuteStatus(!mute_status))
+    }
  
     useEffect(() => {
         
@@ -98,7 +131,7 @@ const Player = () => {
             case "/":
             case "/radio":
             case "/playlist":
-                setPlayerVisible(true)   
+                setPlayerVisible(true)  
                 break;
             default:
             setPlayerVisible(false)
@@ -110,9 +143,9 @@ const Player = () => {
         return (
         <div className={playerVisible === true ? styles.wrapper : styles.hide}>
             <ReactPlayer 
-                url={urlList}
+                url={play_item.video_url}
                 playing={play_status}
-                volume={volume_value}
+                volume={mute_status === true ? "0" : volume_value}
                 controls={true}
                 onProgress={(e) => handleProgress(e)}
                 onDuration={(e) => dispatch(setTotalPlaytime(e))}
@@ -137,20 +170,33 @@ const Player = () => {
                     </div>
                 </div>
                 <div className={styles.playerBarControlSection}>
-                    {/* <MdRepeatOne className={styles.playerBarRepeatOneIcon}/> */}
-                    {/* <MdRepeat className={styles.playerBarRepeatIcon}/> */}
-                    <CgPlayTrackPrev className={styles.playerBarPrevIcon}/>
+                
                     {
-                        playerBarPlayStatus === true ? 
+                        loop_status === "one" 
+                            ? <MdRepeatOne onClick={() => handleLoop("")} className={styles.playerBarIconActive}/> 
+                                : loop_status === "" 
+                                    ? <MdRepeat onClick={() => handleLoop("all")} className={styles.playerBarRepeatIcon}/>
+                                        : <MdRepeat onClick={() => handleLoop("one")} className={styles.playerBarIconActive}/>
+                    }
+                    <CgPlayTrackPrev onClick={() => setPlayerInitialData("prev")} className={styles.playerBarPrevIcon}/>
+                    {
+                        play_status === true ? 
                         <BsPauseFill onClick={() => handlePlay()} className={styles.playerBarPauseIcon}/>
                         :
                         <BsPlayFill onClick={() => handlePlay()} className={styles.playerBarPlayIcon}/>
                     }
-                    <CgPlayTrackNext className={styles.playerBarNextIcon}/>
-                    {/* <BiShuffle className={styles.playerBarShuffleIcon}/> */}
+                    <CgPlayTrackNext onClick={() => setPlayerInitialData("next")} className={styles.playerBarNextIcon}/>
+                    <BiShuffle onClick={() => handleShuffle()} className={shuffle_status === true ? styles.playerBarIconActive : styles.playerBarShuffleIcon}/>
                 </div>
                 <div className={styles.playerBarQueueSection}>
-                    <IoVolumeMedium className={styles.playerBarVolumeIcon}/>
+                    {
+                        volume_value <= "0" ||
+                        mute_status === true ? 
+                            <IoVolumeMute onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/> 
+                            : 
+                            <IoVolumeHigh onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/>
+                    }
+                            <input ref={volumeRef} id="volumeSetter"  value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
                     <RiPlayListFill className={styles.playerBarQueueIcon}/>
                     {/* <div className={styles.volumeDiv}>
                         <input value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
