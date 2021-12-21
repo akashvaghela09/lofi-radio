@@ -28,8 +28,8 @@ const Player = () => {
     const location = window.location.pathname;
     const [playerVisible, setPlayerVisible] = useState(false);
     const [playerBarPlayStatus, setPlayerBarPlayStatus] = useState(false);
+    const [volumeSliderShow, setVolumeSliderShow] = useState(false)
     
-    const [show, setShow] = useState(false)
     const {
         play_status,
         volume_value,
@@ -124,6 +124,11 @@ const Player = () => {
     const handleMute = () => {
         dispatch(setMuteStatus(!mute_status))
     }
+    
+    const checkBlur = (e) => {
+        console.log(e)
+        setVolumeSliderShow(false)
+    }
  
     useEffect(() => {
         
@@ -189,19 +194,17 @@ const Player = () => {
                     <BiShuffle onClick={() => handleShuffle()} className={shuffle_status === true ? styles.playerBarIconActive : styles.playerBarShuffleIcon}/>
                 </div>
                 <div className={styles.playerBarQueueSection}>
-                    {
-                        volume_value <= "0" ||
-                        mute_status === true ? 
-                            <IoVolumeMute onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/> 
-                            : 
-                            <IoVolumeHigh onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/>
-                    }
-                            <input ref={volumeRef} id="volumeSetter"  value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
+                    <div className={styles.playerBarVolumeDiv} onBlur={(e) => checkBlur(e)}>
+                        {
+                            volume_value <= "0" ||
+                            mute_status === true ? 
+                                <IoVolumeMute onClick={() => setVolumeSliderShow(!volumeSliderShow)} onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/> 
+                                : 
+                                <IoVolumeHigh onClick={() => setVolumeSliderShow(!volumeSliderShow)} onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/>
+                        }
+                        <input className={volumeSliderShow === true ? styles.playerBarVolumeSlider : styles.hide} ref={volumeRef} id="volumeSetter"  value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
+                    </div>
                     <RiPlayListFill className={styles.playerBarQueueIcon}/>
-                    {/* <div className={styles.volumeDiv}>
-                        <input value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
-                        <h3>Volume {Math.round(volume_value * 100)}</h3>
-                    </div> */}
                 </div>
             </div>
         </div>
