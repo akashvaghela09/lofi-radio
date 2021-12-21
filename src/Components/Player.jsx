@@ -12,7 +12,8 @@ import {
             setPlayItemIndex, 
             setVolumeValue, 
             setLoopStatus,
-            setShuffleStatus 
+            setShuffleStatus,
+            setMuteStatus 
 } from '../Redux/player/actions';
 
 import { BsPlayFill, BsPauseFill } from "react-icons/bs";
@@ -45,7 +46,8 @@ const Player = () => {
         play_item_index,
         current_playlist_id,
         loop_status,
-        shuffle_status
+        shuffle_status,
+        mute_status
     } = useSelector((state) => state.player)
     
     const audioRef = useRef();
@@ -84,6 +86,7 @@ const Player = () => {
     const handleVolumeChange = (e) => {
         let tempValue = e.target.value
         dispatch(setVolumeValue(tempValue))
+        dispatch(setMuteStatus(false))
     }
     
     const handleProgress = (e) => {
@@ -117,6 +120,10 @@ const Player = () => {
     const handleShuffle = () => {
         dispatch(setShuffleStatus(!shuffle_status))
     }
+    
+    const handleMute = () => {
+        dispatch(setMuteStatus(!mute_status))
+    }
  
     useEffect(() => {
         
@@ -138,7 +145,7 @@ const Player = () => {
             <ReactPlayer 
                 url={play_item.video_url}
                 playing={play_status}
-                volume={volume_value}
+                volume={mute_status === true ? "0" : volume_value}
                 controls={true}
                 onProgress={(e) => handleProgress(e)}
                 onDuration={(e) => dispatch(setTotalPlaytime(e))}
@@ -183,9 +190,13 @@ const Player = () => {
                 </div>
                 <div className={styles.playerBarQueueSection}>
                     {
-                        volume_value <= "0" ? <IoVolumeMute className={styles.playerBarVolumeIcon}/> : <IoVolumeHigh className={styles.playerBarVolumeIcon}/>
+                        volume_value <= "0" ||
+                        mute_status === true ? 
+                            <IoVolumeMute onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/> 
+                            : 
+                            <IoVolumeHigh onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/>
                     }
-                            {/* <input ref={volumeRef} id="volumeSetter"  value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/> */}
+                            <input ref={volumeRef} id="volumeSetter"  value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
                     <RiPlayListFill className={styles.playerBarQueueIcon}/>
                     {/* <div className={styles.volumeDiv}>
                         <input value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
