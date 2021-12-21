@@ -14,7 +14,8 @@ import {
     SET_PLAY_ITEM_INDEX,
     SET_CURRENT_PLAYLIST_ID,
     SET_LOOP_STATUS,
-    SET_SHUFFLE_STATUS
+    SET_SHUFFLE_STATUS,
+    SET_MUTE_STATUS
 } from './actionTypes';
 
 const setPlayStatus = (payload) => {
@@ -129,6 +130,13 @@ const setShuffleStatus = (payload) => {
     }
 }
 
+const setMuteStatus = (payload) => {
+    return {
+        type: SET_MUTE_STATUS,
+        payload
+    }
+}
+
 export { 
     setPlayStatus,
     setVolumeValue,
@@ -145,5 +153,6 @@ export {
     setPlayItemIndex,
     setCurrentPlaylistId,
     setLoopStatus,
-    setShuffleStatus
+    setShuffleStatus,
+    setMuteStatus
 }

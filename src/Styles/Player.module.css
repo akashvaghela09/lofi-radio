@@ -125,7 +125,8 @@
 .playerBarNextIcon,
 .playerBarShuffleIcon,
 .playerBarVolumeIcon,
-.playerBarQueueIcon {
+.playerBarQueueIcon,
+.playerBarIconActive {
     font-size: 30px;
     margin: 10px;
     color: white;
@@ -139,7 +140,8 @@
 .playerBarNextIcon:hover,
 .playerBarShuffleIcon:hover,
 .playerBarVolumeIcon:hover,
-.playerBarQueueIcon:hover {
+.playerBarQueueIcon:hover,
+.playerBarIconActive:hover {
     color: #00d9ff;
 }
 
@@ -168,6 +170,10 @@
     font-size: 35px;
     background-color: hsl(0, 0%, 100%, 0.5);
     margin: 2.5px;
+}
+
+.playerBarIconActive {
+    color: #00c5e7;
 }
 
 .playerBarQueueSection {

@@ -2,12 +2,24 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from "../Styles/Player.module.css";
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoadProgress, setPlayItem, setPlayProgress, setPlayStatus, setSeekValue, setTotalPlaytime, setPlayItemIndex, setVolumeValue } from '../Redux/player/actions';
+import { 
+            setLoadProgress, 
+            setPlayItem, 
+            setPlayProgress, 
+            setPlayStatus, 
+            setSeekValue, 
+            setTotalPlaytime, 
+            setPlayItemIndex, 
+            setVolumeValue, 
+            setLoopStatus,
+            setShuffleStatus 
+} from '../Redux/player/actions';
+
 import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import { BiShuffle } from "react-icons/bi";
 import { MdRepeatOne, MdRepeat } from "react-icons/md";
 import { RiPlayListFill } from "react-icons/ri";
-import { IoVolumeMedium } from "react-icons/io5";
+import { IoVolumeHigh, IoVolumeMute } from "react-icons/io5";
 import { CgPlayTrackNext, CgPlayTrackPrev } from "react-icons/cg";
 
 const Player = () => {
@@ -15,6 +27,7 @@ const Player = () => {
     const location = window.location.pathname;
     const [playerVisible, setPlayerVisible] = useState(false);
     const [playerBarPlayStatus, setPlayerBarPlayStatus] = useState(false);
+    
     const [show, setShow] = useState(false)
     const {
         play_status,
@@ -30,7 +43,9 @@ const Player = () => {
         play_mode,
         template_use_status,
         play_item_index,
-        current_playlist_id
+        current_playlist_id,
+        loop_status,
+        shuffle_status
     } = useSelector((state) => state.player)
     
     const audioRef = useRef();
@@ -95,8 +110,12 @@ const Player = () => {
         }
     }
     
-    const check = () => {
-        setShow(!show)
+    const handleLoop = (para) => {
+        dispatch(setLoopStatus(para))
+    }
+    
+    const handleShuffle = () => {
+        dispatch(setShuffleStatus(!shuffle_status))
     }
  
     useEffect(() => {
@@ -144,8 +163,14 @@ const Player = () => {
                     </div>
                 </div>
                 <div className={styles.playerBarControlSection}>
-                    {/* <MdRepeatOne className={styles.playerBarRepeatOneIcon}/> */}
-                    {/* <MdRepeat className={styles.playerBarRepeatIcon}/> */}
+                
+                    {
+                        loop_status === "one" 
+                            ? <MdRepeatOne onClick={() => handleLoop("")} className={styles.playerBarIconActive}/> 
+                                : loop_status === "" 
+                                    ? <MdRepeat onClick={() => handleLoop("all")} className={styles.playerBarRepeatIcon}/>
+                                        : <MdRepeat onClick={() => handleLoop("one")} className={styles.playerBarIconActive}/>
+                    }
                     <CgPlayTrackPrev onClick={() => setPlayerInitialData("prev")} className={styles.playerBarPrevIcon}/>
                     {
                         play_status === true ? 
@@ -154,12 +179,14 @@ const Player = () => {
                         <BsPlayFill onClick={() => handlePlay()} className={styles.playerBarPlayIcon}/>
                     }
                     <CgPlayTrackNext onClick={() => setPlayerInitialData("next")} className={styles.playerBarNextIcon}/>
-                    {/* <BiShuffle className={styles.playerBarShuffleIcon}/> */}
+                    <BiShuffle onClick={() => handleShuffle()} className={shuffle_status === true ? styles.playerBarIconActive : styles.playerBarShuffleIcon}/>
                 </div>
                 <div className={styles.playerBarQueueSection}>
-                    <IoVolumeMedium className={styles.playerBarVolumeIcon}/>
+                    {
+                        volume_value <= "0" ? <IoVolumeMute className={styles.playerBarVolumeIcon}/> : <IoVolumeHigh className={styles.playerBarVolumeIcon}/>
+                    }
                             {/* <input ref={volumeRef} id="volumeSetter"  value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/> */}
-                    <RiPlayListFill onClick={() => check()} className={styles.playerBarQueueIcon}/>
+                    <RiPlayListFill className={styles.playerBarQueueIcon}/>
                     {/* <div className={styles.volumeDiv}>
                         <input value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
                         <h3>Volume {Math.round(volume_value * 100)}</h3>
