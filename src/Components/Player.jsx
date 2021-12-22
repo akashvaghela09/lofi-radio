@@ -47,7 +47,8 @@ const Player = () => {
         current_playlist_id,
         loop_status,
         shuffle_status,
-        mute_status
+        mute_status,
+        play_queue
     } = useSelector((state) => state.player)
     
     const audioRef = useRef();
@@ -56,31 +57,18 @@ const Player = () => {
     const handlePlay = () => {
         if(play_status === true){
             setPlayerBarPlayStatus(false)
-            // let count = 1;
-            // let timeId = setInterval(() => {
-            //     count = (count) - 0.1
-            //     if(count >= 0){
-            //         dispatch(setVolumeValue(count))
-            //     } else {
-            //         dispatch(setVolumeValue(0))
-            //         clearInterval(timeId)
-                    dispatch(setPlayStatus(!play_status))
-            //     }
-            // }, 150);
+            dispatch(setPlayStatus(!play_status))
         } else {
             setPlayerBarPlayStatus(true)
             dispatch(setPlayStatus(!play_status))
-            // let count = 0;
-            // let timeId = setInterval(() => {
-            //     count = (count) + 0.1
-            //     if(count <= 1){
-            //         dispatch(setVolumeValue(count))
-            //     } else {
-            //         dispatch(setVolumeValue(1))
-            //         clearInterval(timeId)
-            //     }
-            // }, 150);
         }
+    }
+    
+    const handlePlayEnd = () => {
+        console.log("ended")
+        console.log(play_queue.playlist_content)
+        dispatch(setPlayItem(play_queue.playlist_content[play_item_index+1]))
+        dispatch(setPlayItemIndex(play_item_index))
     }
     
     const handleVolumeChange = (e) => {
@@ -104,12 +92,22 @@ const Player = () => {
     }
     
     const changePlayingItem = (para) => {
-        if(((play_item_index + 1) !== radiolistData.length) && para === "next"){
-            dispatch(setPlayItemIndex(play_item_index + 1))
-            dispatch(setPlayItem(radiolistData[play_item_index+1]))
-        }  else if (((play_item_index) !== 0) && para === "prev") {
-            dispatch(setPlayItemIndex(play_item_index - 1))
-            dispatch(setPlayItem(radiolistData[play_item_index-1]))
+        if(play_mode === "radio"){
+            if(((play_item_index + 1) !== radiolistData.length) && para === "next"){
+                dispatch(setPlayItemIndex(play_item_index + 1))
+                dispatch(setPlayItem(radiolistData[play_item_index+1]))
+            }  else if (((play_item_index) !== 0) && para === "prev") {
+                dispatch(setPlayItemIndex(play_item_index - 1))
+                dispatch(setPlayItem(radiolistData[play_item_index-1]))
+            }
+        } else if (play_mode === "playlist"){
+            if(((play_item_index + 1) !== play_queue.playlist_content.length) && para === "next"){
+                dispatch(setPlayItemIndex(play_item_index + 1))
+                dispatch(setPlayItem(play_queue.playlist_content[play_item_index+1]))
+            }  else if (((play_item_index) !== 0) && para === "prev") {
+                dispatch(setPlayItemIndex(play_item_index - 1))
+                dispatch(setPlayItem(play_queue.playlist_content[play_item_index-1]))
+            }
         }
     }
     
@@ -153,8 +151,9 @@ const Player = () => {
                 controls={true}
                 onProgress={(e) => handleProgress(e)}
                 onDuration={(e) => dispatch(setTotalPlaytime(e))}
+                onEnded={() => handlePlayEnd()}
                 ref={audioRef}
-                loop={true}
+                loop={false}
                 width="0px"
                 height="0px"
             />

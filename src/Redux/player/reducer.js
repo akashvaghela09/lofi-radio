@@ -15,7 +15,8 @@ import {
     SET_CURRENT_PLAYLIST_ID,
     SET_LOOP_STATUS,
     SET_SHUFFLE_STATUS,
-    SET_MUTE_STATUS
+    SET_MUTE_STATUS,
+    SET_PLAY_QUEUE
 } from './actionTypes';
 
 const initialState = {
@@ -35,7 +36,8 @@ const initialState = {
     current_playlist_id: "",
     loop_status: "",
     shuffle_status: false,
-    mute_status: false
+    mute_status: false,
+    play_queue: {}
 }
 
 const reducer = (state = initialState, {type, payload}) => {
@@ -125,6 +127,11 @@ const reducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 mute_status: payload
+            }
+        case SET_PLAY_QUEUE:
+            return {
+                ...state,
+                play_queue: payload
             }
         default:
             return state
