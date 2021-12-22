@@ -17,6 +17,7 @@ function App() {
     for(let i = 0; i < tempPlaylist.length; i++){
       let tempItem = tempPlaylist[i].playlist_content;
       tempPlaylist[i]["id"] = uuid();
+      tempPlaylist[i]["channel_name"] = tempPlaylist[i].playlist_content[0].channelTitle
       
       for(let j = 0; j < tempItem.length; j++){
         tempItem[j]["id"] = uuid();

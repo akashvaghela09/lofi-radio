@@ -8,20 +8,11 @@ import { setPlayItem, setPlayItemIndex, setPlayStatus } from '../Redux/player/ac
 const PlayCard = (data) => {
     const dispatch = useDispatch();
     const {
-        play_status,
-        volume_value,
-        play_progress,
-        load_progress,
-        seek_value,
-        total_playtime,
-        remaining_playtime,
-        play_item,
         playlistData,
         radiolistData,
         play_mode,
         template_use_status
     } = useSelector((state) => state.player)
-    
     const {item, index} = data
     
     const playSelectedStream = (para) => {
@@ -35,7 +26,7 @@ const PlayCard = (data) => {
     return (
         <div className={styles.card}>
             <img src={item.thumbnails.medium.url} alt="radio station" className={styles.cardCover}/>
-            <h3 className={styles.cardTitle}>{item.title}</h3>
+            <h4 className={styles.cardTitle}>{item.title}</h4>
             <p className={styles.cardChannelTitle}>{item.channelTitle}</p>
             <div className={styles.radioIconDiv}>
                 <FiRadio className={styles.radioIcon}/>
