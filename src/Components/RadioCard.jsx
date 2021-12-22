@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "../Styles/PlayCard.module.css";
+import styles from "../Styles/RadioCard.module.css";
 import { BsPlayFill } from "react-icons/bs";
 import { FiRadio } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +13,7 @@ const PlayCard = (data) => {
         play_mode,
         template_use_status
     } = useSelector((state) => state.player)
-    const {item, index} = data
+    const {item, itemIndex} = data
     
     const playSelectedStream = (para) => {
         // if(play_mode === "radio"){
@@ -32,7 +32,7 @@ const PlayCard = (data) => {
                 <FiRadio className={styles.radioIcon}/>
             </div>
             <div className={styles.playBtnDiv}>
-                <BsPlayFill className={styles.playBtn} onClick={() => playSelectedStream(index)}/>
+                <BsPlayFill className={styles.playBtn} onClick={() => playSelectedStream(itemIndex)}/>
             </div>
         </div>
     )

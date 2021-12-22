@@ -5,7 +5,7 @@ import { BsPlayFill } from "react-icons/bs";
 import { FiRadio } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
 import { setPlayItem, setPlayItemIndex, setPlayStatus } from '../Redux/player/actions';
-import { PlayCard } from '../Components/PlayCard';
+import { PlayCard } from '../Components/RadioCard';
 
 const Radio = () => {
     const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const Radio = () => {
             <Header />
             <div className={styles.cardSection}>
                 {
-                    radiolistData.map((item, index) => <PlayCard item={item} index={index}/> )
+                    radiolistData.map((item, itemIndex) => <PlayCard item={item} itemIndex={itemIndex}/> )
                 }
             </div>
         </div>
