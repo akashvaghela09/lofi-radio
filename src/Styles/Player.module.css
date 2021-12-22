@@ -30,15 +30,17 @@
 
 .progressDiv {
     position: relative;
-    min-height: 5px;
-    height: 5px;
-    background-color: black;
+    background-color: #2b2b2b;
+}
+
+.progressDiv, .progressBar, .progressLoad, .progressBarVisible {
+    min-height: 3px;
+    height: 3px;
 }
 
 .progressBar {
     width: 100%;
     opacity: 0;
-    height: 5px;
     background: transparent;
     position: absolute;
     top: 0px;
@@ -50,8 +52,8 @@
 }
 
 .progressBar::-webkit-slider-thumb {
-    height: 18px;
-    width: 18px;
+    height: 15px;
+    width: 15px;
     border-radius: 50%;
     background: #FFFFFF;
     cursor: pointer;
@@ -64,20 +66,18 @@
 }
 
 .progressLoad {
-    background-color: #b2bec3;
+    background-color: #555;
     width: 100%;
-    height: 5px;
+    height: 3px;
     position: absolute;
     top: 0px;
 }
 
 .progressBarVisible {
-    background-color: #00b894;
+    background-color: white;
     width: 100%;
-    height: 5px;
     position: absolute;
     top: 0px;
-    
     cursor: pointer;
 }
 
@@ -181,6 +181,36 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+}
+
+.playerBarVolumeDiv {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+}
+
+.playerBarVolumeSlider {
+    background: white;
+    height: 6px;
+    transform: rotate(-90deg);
+    position: absolute;
+    bottom: 110px;
+    width: 100px;
+    -webkit-appearance: none;
+}
+
+.playerBarVolumeSlider::-webkit-slider-runnable-track {
+    background: transparent;
+}
+
+.playerBarVolumeSlider::-webkit-slider-thumb {
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    cursor: pointer;
+    -webkit-appearance: none;
 }
 
 .playerBarCoverSectionData {

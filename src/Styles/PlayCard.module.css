@@ -1,52 +1,7 @@
-.wrapper {
-    width: 100%;
-    max-height: 100vh;
-    min-height: 100vh;
-    color: white;
-    background: transparent;
-    overflow: auto;
-}
-
-.playlistWrapper {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 auto;
-    padding: 10px 0px;
-    width: 1110px;
-    
-}
-
-.playlistTitle {
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-}
-
 .card {
     width: 180px;
     margin: 20px;
     position: relative;
-}
-
-.itemCountDiv {
-    position: absolute;
-    top: 145px;
-    right: 5px;
-    display: flex;
-    padding: 3px 6px;
-    align-items: center;
-    border-radius: 15px;
-    background: rgb(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-}
-.itemCountIcon {
-    color: white;
-    padding: 3px;
-    margin: 0px 2px;
-}
-.itemCount {
-    color: white;
-    padding: 3px;
 }
 
 .cardCover {
@@ -92,14 +47,33 @@
     background-color: hsl(0, 0%, 100%, 0.5);
 }
 
+.radioIconDiv {
+    position: absolute;
+    top: 135px;
+    left: 7px;
+    display: grid;
+    place-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 0, 0, 0.5);
+    backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3px );
+}
+
+.radioIcon {
+    font-size: 23px;
+    margin: 0px;
+    padding: 0px;
+}
+
 .cardTitle, .cardChannelTitle {
+    width: 180px;
     margin: 10px 0px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    width: 100%;
 }
 
 .cardChannelTitle {
@@ -108,20 +82,12 @@
 
 @media screen and (max-width: 1200px) {
     
-    .playlistWrapper {
-        width: 900px;
-    }
-    
     .cardSection {
         width: 900px;
     }
 }
 
 @media screen and (max-width: 1000px) {
-    
-    .playlistWrapper {
-        width: 90%;
-    }
     
     .cardSection {
         width: 90%;
@@ -130,10 +96,6 @@
     .card {
         width: 150px;
         margin: 10px;
-    }
-    
-    .itemCountDiv {
-        top: 115px;
     }
 
     .cardCover {
@@ -152,6 +114,15 @@
 
     .playBtn:hover {
         font-size: 35px;
+    }
+
+    .radioIconDiv {
+        top: 115px;
+        padding: 5px;
+    }
+
+    .radioIcon {
+        font-size: 20px;
     }
 
     .cardTitle, .cardChannelTitle {

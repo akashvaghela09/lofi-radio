@@ -28,8 +28,8 @@ const Player = () => {
     const location = window.location.pathname;
     const [playerVisible, setPlayerVisible] = useState(false);
     const [playerBarPlayStatus, setPlayerBarPlayStatus] = useState(false);
+    const [volumeSliderShow, setVolumeSliderShow] = useState(false)
     
-    const [show, setShow] = useState(false)
     const {
         play_status,
         volume_value,
@@ -40,14 +40,15 @@ const Player = () => {
         remaining_playtime,
         play_item,
         playlist,
-        radiolist,
+        radiolistData,
         play_mode,
         template_use_status,
         play_item_index,
         current_playlist_id,
         loop_status,
         shuffle_status,
-        mute_status
+        mute_status,
+        play_queue
     } = useSelector((state) => state.player)
     
     const audioRef = useRef();
@@ -56,31 +57,18 @@ const Player = () => {
     const handlePlay = () => {
         if(play_status === true){
             setPlayerBarPlayStatus(false)
-            // let count = 1;
-            // let timeId = setInterval(() => {
-            //     count = (count) - 0.1
-            //     if(count >= 0){
-            //         dispatch(setVolumeValue(count))
-            //     } else {
-            //         dispatch(setVolumeValue(0))
-            //         clearInterval(timeId)
-                    dispatch(setPlayStatus(!play_status))
-            //     }
-            // }, 150);
+            dispatch(setPlayStatus(!play_status))
         } else {
             setPlayerBarPlayStatus(true)
             dispatch(setPlayStatus(!play_status))
-            // let count = 0;
-            // let timeId = setInterval(() => {
-            //     count = (count) + 0.1
-            //     if(count <= 1){
-            //         dispatch(setVolumeValue(count))
-            //     } else {
-            //         dispatch(setVolumeValue(1))
-            //         clearInterval(timeId)
-            //     }
-            // }, 150);
         }
+    }
+    
+    const handlePlayEnd = () => {
+        console.log("ended")
+        console.log(play_queue.playlist_content)
+        dispatch(setPlayItem(play_queue.playlist_content[play_item_index+1]))
+        dispatch(setPlayItemIndex(play_item_index))
     }
     
     const handleVolumeChange = (e) => {
@@ -103,13 +91,23 @@ const Player = () => {
         audioRef.current.seekTo(tempSeek, "fraction")
     }
     
-    const setPlayerInitialData = (para) => {
-        if(((play_item_index + 1) !== radiolist.length) && para === "next"){
-            dispatch(setPlayItemIndex(play_item_index + 1))
-            dispatch(setPlayItem(radiolist[play_item_index+1]))
-        }  else if (((play_item_index) !== 0) && para === "prev") {
-            dispatch(setPlayItemIndex(play_item_index - 1))
-            dispatch(setPlayItem(radiolist[play_item_index-1]))
+    const changePlayingItem = (para) => {
+        if(play_mode === "radio"){
+            if(((play_item_index + 1) !== radiolistData.length) && para === "next"){
+                dispatch(setPlayItemIndex(play_item_index + 1))
+                dispatch(setPlayItem(radiolistData[play_item_index+1]))
+            }  else if (((play_item_index) !== 0) && para === "prev") {
+                dispatch(setPlayItemIndex(play_item_index - 1))
+                dispatch(setPlayItem(radiolistData[play_item_index-1]))
+            }
+        } else if (play_mode === "playlist"){
+            if(((play_item_index + 1) !== play_queue.playlist_content.length) && para === "next"){
+                dispatch(setPlayItemIndex(play_item_index + 1))
+                dispatch(setPlayItem(play_queue.playlist_content[play_item_index+1]))
+            }  else if (((play_item_index) !== 0) && para === "prev") {
+                dispatch(setPlayItemIndex(play_item_index - 1))
+                dispatch(setPlayItem(play_queue.playlist_content[play_item_index-1]))
+            }
         }
     }
     
@@ -123,6 +121,10 @@ const Player = () => {
     
     const handleMute = () => {
         dispatch(setMuteStatus(!mute_status))
+    }
+    
+    const hideVolumeBar = (e) => {
+        setVolumeSliderShow(false)
     }
  
     useEffect(() => {
@@ -149,8 +151,9 @@ const Player = () => {
                 controls={true}
                 onProgress={(e) => handleProgress(e)}
                 onDuration={(e) => dispatch(setTotalPlaytime(e))}
+                onEnded={() => handlePlayEnd()}
                 ref={audioRef}
-                loop={true}
+                loop={false}
                 width="0px"
                 height="0px"
             />
@@ -178,30 +181,28 @@ const Player = () => {
                                     ? <MdRepeat onClick={() => handleLoop("all")} className={styles.playerBarRepeatIcon}/>
                                         : <MdRepeat onClick={() => handleLoop("one")} className={styles.playerBarIconActive}/>
                     }
-                    <CgPlayTrackPrev onClick={() => setPlayerInitialData("prev")} className={styles.playerBarPrevIcon}/>
+                    <CgPlayTrackPrev onClick={() => changePlayingItem("prev")} className={styles.playerBarPrevIcon}/>
                     {
                         play_status === true ? 
                         <BsPauseFill onClick={() => handlePlay()} className={styles.playerBarPauseIcon}/>
                         :
                         <BsPlayFill onClick={() => handlePlay()} className={styles.playerBarPlayIcon}/>
                     }
-                    <CgPlayTrackNext onClick={() => setPlayerInitialData("next")} className={styles.playerBarNextIcon}/>
+                    <CgPlayTrackNext onClick={() => changePlayingItem("next")} className={styles.playerBarNextIcon}/>
                     <BiShuffle onClick={() => handleShuffle()} className={shuffle_status === true ? styles.playerBarIconActive : styles.playerBarShuffleIcon}/>
                 </div>
                 <div className={styles.playerBarQueueSection}>
-                    {
-                        volume_value <= "0" ||
-                        mute_status === true ? 
-                            <IoVolumeMute onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/> 
-                            : 
-                            <IoVolumeHigh onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/>
-                    }
-                            <input ref={volumeRef} id="volumeSetter"  value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
+                    <div className={styles.playerBarVolumeDiv} onBlur={(e) => hideVolumeBar(e)}>
+                        {
+                            volume_value <= "0" ||
+                            mute_status === true ? 
+                                <IoVolumeMute onClick={() => setVolumeSliderShow(!volumeSliderShow)} onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/> 
+                                : 
+                                <IoVolumeHigh onClick={() => setVolumeSliderShow(!volumeSliderShow)} onDoubleClick={() => handleMute()} className={styles.playerBarVolumeIcon}/>
+                        }
+                        <input className={volumeSliderShow === true ? styles.playerBarVolumeSlider : styles.hide} ref={volumeRef} id="volumeSetter"  value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
+                    </div>
                     <RiPlayListFill className={styles.playerBarQueueIcon}/>
-                    {/* <div className={styles.volumeDiv}>
-                        <input value={volume_value} onChange={(e) => handleVolumeChange(e)} type="range" min="0" max="1" step="0.001"/>
-                        <h3>Volume {Math.round(volume_value * 100)}</h3>
-                    </div> */}
                 </div>
             </div>
         </div>

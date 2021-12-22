@@ -15,7 +15,8 @@ import {
     SET_CURRENT_PLAYLIST_ID,
     SET_LOOP_STATUS,
     SET_SHUFFLE_STATUS,
-    SET_MUTE_STATUS
+    SET_MUTE_STATUS,
+    SET_PLAY_QUEUE
 } from './actionTypes';
 
 const initialState = {
@@ -27,15 +28,16 @@ const initialState = {
     total_playtime: 0,
     remaining_playtime: 0,
     play_item: { "radioName": "", "channelTitle": "", "channel_url": "", "thumbnails": {"medium": {"url": ""}, "maxres": {"url": ""}}, "title": "", "video_url": ""},
-    playlist: [],
-    radiolist: [],
+    playlistData: [],
+    radiolistData: [],
     template_use_status: false,
     play_mode: "radio",
     play_item_index: null,
     current_playlist_id: "",
     loop_status: "",
     shuffle_status: false,
-    mute_status: false
+    mute_status: false,
+    play_queue: {}
 }
 
 const reducer = (state = initialState, {type, payload}) => {
@@ -84,12 +86,12 @@ const reducer = (state = initialState, {type, payload}) => {
         case SET_PLAYLIST:
             return {
                 ...state,
-                playlist: payload
+                playlistData: payload
             }
         case SET_RADIOLIST:
             return {
                 ...state,
-                radiolist: payload
+                radiolistData: payload
             }
         case SET_PLAY_MODE:
             return {
@@ -125,6 +127,11 @@ const reducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 mute_status: payload
+            }
+        case SET_PLAY_QUEUE:
+            return {
+                ...state,
+                play_queue: payload
             }
         default:
             return state
