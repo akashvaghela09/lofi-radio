@@ -89,6 +89,21 @@
     color: darkgray;
 }
 
+.seeAllLink {
+    text-decoration: none;
+    backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3px );
+    background-color: hsl(0, 0%, 100%, 0.3);
+    padding: 7px 15px;
+    border-radius: 20px;
+    color: white;
+}
+
+.seeAllLink:hover {
+    font-size: 18px;
+    background-color: hsl(0, 0%, 100%, 0.5);
+}
+
 @media screen and (max-width: 1200px) {
     .cardSection {
         width: 900px;

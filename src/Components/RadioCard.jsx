@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from "../Styles/RadioCard.module.css";
 import { BsPlayFill } from "react-icons/bs";
 import { FiRadio } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
 import { setPlayItem, setPlayItemIndex, setPlayStatus } from '../Redux/player/actions';
+import { Link } from 'react-router-dom';
 
-const PlayCard = (data) => {
+const RadioCard = (data) => {
     const dispatch = useDispatch();
     const {
         playlistData,
@@ -13,12 +14,10 @@ const PlayCard = (data) => {
         play_mode,
         template_use_status
     } = useSelector((state) => state.player)
-    const {item, itemIndex} = data
+    const {item, itemIndex, lastIndex} = data
     
     const playSelectedStream = (para) => {
-        // if(play_mode === "radio"){
-            dispatch(setPlayItem(radiolistData[para]))
-        // }
+        dispatch(setPlayItem(radiolistData[para]))
         dispatch(setPlayItemIndex(para))
         dispatch(setPlayStatus(true))
     }
@@ -32,10 +31,15 @@ const PlayCard = (data) => {
                 <FiRadio className={styles.radioIcon}/>
             </div>
             <div className={styles.playBtnDiv}>
-                <BsPlayFill className={styles.playBtn} onClick={() => playSelectedStream(itemIndex)}/>
+                {
+                    itemIndex !== lastIndex ? 
+                        <BsPlayFill className={styles.playBtn} onClick={() => playSelectedStream(itemIndex)}/>
+                            :
+                        <Link to="/radio" className={styles.seeAllLink}>SEE ALL</Link>
+                }
             </div>
         </div>
     )
 }
 
-export { PlayCard }
+export { RadioCard }

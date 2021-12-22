@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from "../Styles/PlaylistCard.module.css"
 import { BsPlayFill } from "react-icons/bs";
 import { GiMusicalNotes } from "react-icons/gi";
 import { useDispatch, useSelector } from 'react-redux';
 import { setPlayItem, setPlayItemIndex, setPlayMode, setPlayStatus, setPlayQueue } from '../Redux/player/actions';
+import { Link } from 'react-router-dom';
 
 const PlaylistCard = (data) => {
     const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const PlaylistCard = (data) => {
         radiolistData
     } = useSelector((state) => state.player)
     
-    const { list, listIndex } = data;
+    const { list, listIndex, lastIndex } = data;
     
     const playSelectedStream = (list, listIndex) => {
         dispatch(setPlayQueue(list))
@@ -32,7 +33,12 @@ const PlaylistCard = (data) => {
                         <p className={styles.itemCount}>{list.playlist_content.length}</p>
                     </div>
                     <div className={styles.playBtnDiv}>
-                        <BsPlayFill className={styles.playBtn} onClick={() => playSelectedStream(list, listIndex)}/>
+                        {
+                          listIndex !== lastIndex ? 
+                            <BsPlayFill className={styles.playBtn} onClick={() => playSelectedStream(list, listIndex)}/>
+                                : 
+                            <Link to="/playlist" className={styles.seeAllLink}>SEE ALL</Link>
+                        }
                     </div>
                 </div>
     )
