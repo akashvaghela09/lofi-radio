@@ -3,12 +3,12 @@
     border-radius: 6px;
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     left: 0px;
     backdrop-filter: blur(40px);
     /* border: 1px solid red; */
-    width: calc(100% - 10px);
+    width: calc(100%);
     /* background-color: rgb(255, 255, 255, 0.5); */
     z-index: 200;
 }
