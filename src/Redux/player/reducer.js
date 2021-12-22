@@ -27,8 +27,8 @@ const initialState = {
     total_playtime: 0,
     remaining_playtime: 0,
     play_item: { "radioName": "", "channelTitle": "", "channel_url": "", "thumbnails": {"medium": {"url": ""}, "maxres": {"url": ""}}, "title": "", "video_url": ""},
-    playlist: [],
-    radiolist: [],
+    playlistData: [],
+    radiolistData: [],
     template_use_status: false,
     play_mode: "radio",
     play_item_index: null,
@@ -84,12 +84,12 @@ const reducer = (state = initialState, {type, payload}) => {
         case SET_PLAYLIST:
             return {
                 ...state,
-                playlist: payload
+                playlistData: payload
             }
         case SET_RADIOLIST:
             return {
                 ...state,
-                radiolist: payload
+                radiolistData: payload
             }
         case SET_PLAY_MODE:
             return {

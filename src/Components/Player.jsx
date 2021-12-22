@@ -40,7 +40,7 @@ const Player = () => {
         remaining_playtime,
         play_item,
         playlist,
-        radiolist,
+        radiolistData,
         play_mode,
         template_use_status,
         play_item_index,
@@ -103,13 +103,13 @@ const Player = () => {
         audioRef.current.seekTo(tempSeek, "fraction")
     }
     
-    const setPlayerInitialData = (para) => {
-        if(((play_item_index + 1) !== radiolist.length) && para === "next"){
+    const changePlayingItem = (para) => {
+        if(((play_item_index + 1) !== radiolistData.length) && para === "next"){
             dispatch(setPlayItemIndex(play_item_index + 1))
-            dispatch(setPlayItem(radiolist[play_item_index+1]))
+            dispatch(setPlayItem(radiolistData[play_item_index+1]))
         }  else if (((play_item_index) !== 0) && para === "prev") {
             dispatch(setPlayItemIndex(play_item_index - 1))
-            dispatch(setPlayItem(radiolist[play_item_index-1]))
+            dispatch(setPlayItem(radiolistData[play_item_index-1]))
         }
     }
     
@@ -125,8 +125,7 @@ const Player = () => {
         dispatch(setMuteStatus(!mute_status))
     }
     
-    const checkBlur = (e) => {
-        console.log(e)
+    const hideVolumeBar = (e) => {
         setVolumeSliderShow(false)
     }
  
@@ -183,18 +182,18 @@ const Player = () => {
                                     ? <MdRepeat onClick={() => handleLoop("all")} className={styles.playerBarRepeatIcon}/>
                                         : <MdRepeat onClick={() => handleLoop("one")} className={styles.playerBarIconActive}/>
                     }
-                    <CgPlayTrackPrev onClick={() => setPlayerInitialData("prev")} className={styles.playerBarPrevIcon}/>
+                    <CgPlayTrackPrev onClick={() => changePlayingItem("prev")} className={styles.playerBarPrevIcon}/>
                     {
                         play_status === true ? 
                         <BsPauseFill onClick={() => handlePlay()} className={styles.playerBarPauseIcon}/>
                         :
                         <BsPlayFill onClick={() => handlePlay()} className={styles.playerBarPlayIcon}/>
                     }
-                    <CgPlayTrackNext onClick={() => setPlayerInitialData("next")} className={styles.playerBarNextIcon}/>
+                    <CgPlayTrackNext onClick={() => changePlayingItem("next")} className={styles.playerBarNextIcon}/>
                     <BiShuffle onClick={() => handleShuffle()} className={shuffle_status === true ? styles.playerBarIconActive : styles.playerBarShuffleIcon}/>
                 </div>
                 <div className={styles.playerBarQueueSection}>
-                    <div className={styles.playerBarVolumeDiv} onBlur={(e) => checkBlur(e)}>
+                    <div className={styles.playerBarVolumeDiv} onBlur={(e) => hideVolumeBar(e)}>
                         {
                             volume_value <= "0" ||
                             mute_status === true ? 

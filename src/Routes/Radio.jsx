@@ -18,7 +18,7 @@ const Radio = () => {
         total_playtime,
         remaining_playtime,
         play_item,
-        playlist,
+        playlistData,
         radiolistData,
         play_mode,
         template_use_status
