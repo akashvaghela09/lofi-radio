@@ -1,0 +1,156 @@
+.card {
+    width: 180px;
+    margin: 20px;
+    position: relative;
+}
+
+.cardCover {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+    -webkit-box-shadow: 0px 11px 17px -1px rgba(0,0,0,0.71); 
+    box-shadow: 0px 11px 17px -1px rgba(0,0,0,0.71);
+    cursor: pointer;
+}
+
+.playBtnDiv {
+    position: absolute;
+    top: 0px;
+    width: 180px;
+    height: 180px;
+    display: grid;
+    place-content: center;
+    opacity: 0;
+}
+
+.playBtnDiv:hover {
+    opacity: 1;
+    background-color: hsl(0, 0%, 0%, 0.6);
+    border-radius: 6px;
+}
+
+.playBtn {
+    font-size: 40px;
+    border-radius: 50%;
+    padding: 10px 8px 8px 12px;
+    color: white;
+    backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3px );
+    background-color: hsl(0, 0%, 100%, 0.3);
+    cursor: pointer;
+    user-select: none;
+}
+
+.playBtn:hover {
+    font-size: 45px;
+    background-color: hsl(0, 0%, 100%, 0.5);
+}
+
+.radioIconDiv {
+    position: absolute;
+    top: 135px;
+    left: 7px;
+    display: grid;
+    place-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 0, 0, 0.5);
+    backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3px );
+}
+
+.radioIcon {
+    font-size: 23px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.cardTitle, .cardChannelTitle {
+    width: 180px;
+    margin: 10px 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.cardChannelTitle {
+    color: darkgray;
+}
+
+.seeAllLink {
+    text-decoration: none;
+    backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3px );
+    background-color: hsl(0, 0%, 100%, 0.3);
+    padding: 7px 15px;
+    border-radius: 20px;
+    color: white;
+}
+
+.seeAllLink:hover {
+    font-size: 18px;
+    background-color: hsl(0, 0%, 100%, 0.5);
+}
+
+@media screen and (max-width: 1200px) {
+    
+    .cardSection {
+        width: 900px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    
+    .cardSection {
+        width: 90%;
+    }
+        
+    .card {
+        width: 150px;
+        margin: 10px;
+    }
+
+    .cardCover {
+        width: 150px;
+        height: 150px;
+    }
+
+    .playBtnDiv {
+        width: 150px;
+        height: 150px;
+    }
+
+    .playBtn {
+        font-size: 30px;
+    }
+
+    .playBtn:hover {
+        font-size: 35px;
+    }
+
+    .radioIconDiv {
+        top: 115px;
+        padding: 5px;
+    }
+
+    .radioIcon {
+        font-size: 20px;
+    }
+
+    .cardTitle, .cardChannelTitle {
+        margin: 0px;
+        width: 150px;
+    }
+
+    .cardTitle{
+        font-size: 18px;
+        margin-top: 5px;
+    }
+
+    .cardChannelTitle {
+        font-size: 15px;
+    }
+}

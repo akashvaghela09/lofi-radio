@@ -1,6 +1,6 @@
 .wrapper {
     width: 100%;
-    max-height: 100vh;
+    max-height: fit-content;
     min-height: 100vh;
     color: white;
     background: transparent;

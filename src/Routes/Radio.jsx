@@ -5,31 +5,19 @@ import { BsPlayFill } from "react-icons/bs";
 import { FiRadio } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
 import { setPlayItem, setPlayItemIndex, setPlayStatus } from '../Redux/player/actions';
-import { PlayCard } from '../Components/PlayCard';
+import { RadioCard } from '../Components/RadioCard';
 
 const Radio = () => {
     const dispatch = useDispatch();
     const {
-        play_status,
-        volume_value,
-        play_progress,
-        load_progress,
-        seek_value,
-        total_playtime,
-        remaining_playtime,
-        play_item,
-        playlistData,
-        radiolistData,
-        play_mode,
-        template_use_status
+        radiolistData
     } = useSelector((state) => state.player)
     
     return (
         <div className={styles.wrapper}>
-            <Header />
             <div className={styles.cardSection}>
                 {
-                    radiolistData.map((item, index) => <PlayCard item={item} index={index}/> )
+                    radiolistData.map((item, itemIndex) => <RadioCard item={item} itemIndex={itemIndex}/> )
                 }
             </div>
         </div>
