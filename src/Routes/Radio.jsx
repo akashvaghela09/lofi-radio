@@ -15,7 +15,6 @@ const Radio = () => {
     
     return (
         <div className={styles.wrapper}>
-            <Header />
             <div className={styles.cardSection}>
                 {
                     radiolistData.map((item, itemIndex) => <RadioCard item={item} itemIndex={itemIndex}/> )

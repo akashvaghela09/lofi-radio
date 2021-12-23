@@ -13,7 +13,6 @@ const Playlist = () => {
     
     return (
         <div className={styles.wrapper}>
-            <Header/>
             <div className={styles.playlistWrapper}>
                 {
                     playlistData.map((list, listIndex) => {

@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from '../Styles/Home.module.css'
-import { Header } from '../Components/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { RadioCard } from '../Components/RadioCard';
 import { PlaylistCard } from '../Components/PlaylistCard';
@@ -15,7 +14,6 @@ const Home = () => {
     
     return (
         <div className={styles.wrapper}>
-            <Header />
             <div className={styles.cardSection}>
                 <p className={styles.cardSectionTitle}>Featured Lofi Radios</p>
                 <div className={styles.cardListDiv}>

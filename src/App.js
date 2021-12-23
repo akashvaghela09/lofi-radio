@@ -6,6 +6,7 @@ import allData from "./Template/template.json";
 import { setPlaylist, setRadiolist, setPlayItem, setPlayItemIndex } from "./Redux/player/actions";
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
+import { Header } from './Components/Header';
 
 function App() {
   const dispatch = useDispatch();
@@ -45,8 +46,9 @@ function App() {
   }, []);
   return (
     <div className={styles.App}>
-      <Player />
+      <Header />
       <AllRoutes />
+      <Player />
     </div>
   );
 }

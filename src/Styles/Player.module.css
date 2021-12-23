@@ -1,16 +1,13 @@
 .wrapper {
-    /* padding: 20px; */
-    border-radius: 6px;
     display: flex;
     flex-direction: column;
-    position: fixed;
+    position: sticky;
     bottom: 0px;
     left: 0px;
-    backdrop-filter: blur(40px);
-    /* border: 1px solid red; */
-    width: calc(100%);
-    /* background-color: rgb(255, 255, 255, 0.5); */
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 200;
+    backdrop-filter: blur(40px);
 }
 
 .hide {
