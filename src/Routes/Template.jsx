@@ -24,12 +24,12 @@ const Template = () => {
         e.preventDefault();
           
         // Prepare the file
-        let output = JSON.stringify({states: {}}, null, 4); 
+        // let output = JSON.stringify([], null, 4); 
         
         // Download it
-        const blob = new Blob([output]);
-        const fileDownloadUrl = URL.createObjectURL(blob);
-        setDownUrl(fileDownloadUrl)
+        // const blob = new Blob([output]);
+        // const fileDownloadUrl = URL.createObjectURL(blob);
+        // setDownUrl(fileDownloadUrl)
         myref.current.click()
     }
     
@@ -90,8 +90,48 @@ const Template = () => {
         })
     }
     
-    const handleVideoSearch = () => {
-        
+    const handleVideoSearch = (para) => {
+        console.log(para)
+        const tempVideoId = para.videoId
+        axios.get("https://www.googleapis.com/youtube/v3/videos", {
+            params: {
+                key: process.env.REACT_APP_KEY,
+                maxResults: 50,
+                id: tempVideoId,
+                part: "snippet,id,contentDetails",
+            }
+        })
+        .then((res) => {
+            // console.log(res)
+            let response = res.data.items;
+            const tempId = uuidv4()
+            console.log(response)
+            let tempObj = {
+                "id": tempId,
+                "channel_name": response.snippet.channelTitle,
+                "thumbnails": response.snippet.thumbnails.maxres.url,
+                "title": response.snippet.title
+            }
+            
+            console.log(tempObj)
+            // let myArray = []
+            // let response = res.data.items;
+            // for(let i = 0; i < response.length; i++){
+            //     let tempItem = response[i].snippet
+            //     let tempId = uuidv4()
+            //     let tempItemObj = {
+            //         "id": tempId,
+            //         "title": tempItem.title,
+            //         "channelTitle": tempItem.channelTitle,
+            //         "thumbnails" : tempItem.thumbnails,
+            //         "itemCount": response[i].contentDetails.itemCount,
+            //         "playlistId": response[i].id
+            //     }
+            //     myArray.push(tempItemObj)
+            // }
+            // dispatch(setPlaylistResults([...myArray]))
+        })
+      
     }
 
     
@@ -137,7 +177,7 @@ const Template = () => {
                         return <div key={el.id} className={styles.playlistItemWrapper}>
                             <div className={styles.playlistItem}>
                                 <p>{el.title}</p>
-                                <button>Load Video Data</button>
+                                <button onClick={() => handleVideoSearch(el)}>Load Video Data</button>
                             </div>
                             
                         </div>
@@ -191,7 +231,6 @@ const Template = () => {
                     </div>   
                 </div>
             </div>
-            {/* <button onClick={() => console.log(playlistResults)}>check</button> */}
             <div className={styles.resultDiv}>
                 {
                     playlistResults.map((el, i) => {
@@ -211,7 +250,6 @@ const Template = () => {
                     })
                 }
             </div>
-            <button onClick={() => console.log(playlistItemResults)}>Check</button>
         </div>
     )
 }

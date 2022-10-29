@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Template } from '../Components/Template';
+import { Template } from './Template';
 import { Home } from './Home';
 import { Radio } from './Radio';
 import { Playlist } from './Playlist';
